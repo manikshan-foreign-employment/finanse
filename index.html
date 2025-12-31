@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SmartDocs - Finance Pro</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #f8fafc;
+            color: #0f172a;
+            touch-action: manipulation;
+        }
+
+        .brand-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .bottom-sheet {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-top-left-radius: 2rem;
+            border-top-right-radius: 2rem;
+        }
+
+        .hidden-sheet {
+            transform: translateY(100%);
+        }
+
+        .btn-press:active {
+            transform: scale(0.96);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-card {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        /* Custom Scrollbar for list */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .pill {
+            @apply px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider;
+        }
+    </style>
+</head>
+<body class="pb-24 overflow-x-hidden no-scrollbar">
+
+    <!-- Compact Mobile Header -->
+    <header class="brand-gradient text-white px-6 pt-10 pb-20 rounded-b-[2.5rem] shadow-xl sticky top-0 z-40">
+        <div class="max-w-md mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-2xl font-extrabold tracking-tight">SmartDocs</h1>
+                    <div id="status-bar" class="flex items-center gap-2 mt-1 opacity-90">
+                        <span id="status-dot" class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+                        <span id="status-text" class="text-[9px] font-bold uppercase tracking-widest">Syncing</span>
+                    </div>
+                </div>
+                <button onclick="downloadReport()" class="bg-white/10 p-2.5 rounded-xl border border-white/20 backdrop-blur-md btn-press">
+                    <i class="fas fa-file-pdf text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Dashboard Wallet Card -->
+            <div class="bg-white rounded-[2rem] p-6 shadow-2xl text-slate-800 absolute left-6 right-6 top-32 z-20">
+                <div class="flex justify-between items-center mb-4">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Monthly Balance</p>
+                    <span id="label-month" class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">May 2024</span>
+                </div>
+                
+                <h2 id="val-balance" class="text-3xl font-black tracking-tighter text-slate-900 mb-6">Rs. 0.00</h2>
+                
+                <div class="grid grid-cols-2 gap-3 pt-4 border-t border-slate-50">
+                    <div class="flex flex-col">
+                        <span class="text-[9px] font-bold text-emerald-500 uppercase mb-1">Income</span>
+                        <p id="val-income" class="text-sm font-black text-slate-700">Rs. 0</p>
+                    </div>
+                    <div class="flex flex-col text-right">
+                        <span class="text-[9px] font-bold text-rose-500 uppercase mb-1">Expense</span>
+                        <p id="val-expense" class="text-sm font-black text-slate-700">Rs. 0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-md mx-auto px-6 mt-40 relative z-10">
+        
+        <!-- Filter Bar -->
+        <div class="flex items-center gap-4 mb-6">
+            <div class="flex-1 bg-white p-3 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3">
+                <i class="fas fa-search text-slate-300 text-xs"></i>
+                <input type="month" id="monthFilter" class="bg-transparent border-none focus:ring-0 text-xs font-bold text-slate-600 w-full outline-none" onchange="renderList()">
+            </div>
+            <div class="bg-indigo-600 px-4 py-3 rounded-2xl text-white shadow-lg flex items-center gap-2">
+                <i class="fas fa-piggy-bank text-xs"></i>
+                <span id="val-savings" class="text-xs font-black">Rs. 0</span>
+            </div>
+        </div>
+
+        <!-- Transactions Header -->
+        <div class="flex justify-between items-center mb-4 px-1">
+            <h3 class="text-slate-800 font-bold text-base tracking-tight">Recent History</h3>
+            <span id="badge-count" class="text-[9px] font-black text-slate-400 uppercase tracking-widest">0 Records</span>
+        </div>
+
+        <!-- Transactions List -->
+        <div id="data-list" class="space-y-3 no-scrollbar">
+            <!-- Skeleton Loader -->
+            <div class="bg-white p-4 rounded-3xl shadow-sm animate-pulse flex items-center gap-4">
+                <div class="w-12 h-12 bg-slate-50 rounded-2xl"></div>
+                <div class="flex-1 space-y-2">
+                    <div class="h-3 bg-slate-50 rounded w-2/3"></div>
+                    <div class="h-2 bg-slate-50 rounded w-1/3"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Professional Bottom FAB -->
+    <button onclick="toggleModal(true)" class="fixed bottom-8 right-6 w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center text-xl shadow-[0_12px_24px_-4px_rgba(79,70,229,0.4)] z-50 btn-press">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- Bottom Sheet Modal -->
+    <div id="formModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="toggleModal(false)"></div>
+        <div id="sheetBox" class="absolute bottom-0 left-0 right-0 bg-white p-8 bottom-sheet hidden-sheet shadow-2xl">
+            <div class="w-12 h-1 bg-slate-100 rounded-full mx-auto mb-6"></div>
+            
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="formLabel" class="text-xl font-extrabold text-slate-800">Add Entry</h3>
+                <button onclick="toggleModal(false)" class="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">
+                    <i class="fas fa-times text-xs"></i>
+                </button>
+            </div>
+
+            <form id="mainForm" class="space-y-5">
+                <input type="hidden" id="editId">
+                <div class="space-y-1.5">
+                    <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Date</label>
+                    <input type="date" id="inDate" required class="w-full bg-slate-50 p-4 rounded-2xl border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-500 font-bold text-sm outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[9px] font-black text-emerald-500 uppercase tracking-widest ml-1">Income</label>
+                        <input type="number" id="inInc" placeholder="0.00" class="w-full bg-emerald-50/50 p-4 rounded-2xl border-none ring-1 ring-emerald-100 focus:ring-2 focus:ring-emerald-500 font-black text-emerald-600 text-sm outline-none">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-[9px] font-black text-rose-500 uppercase tracking-widest ml-1">Expense</label>
+                        <input type="number" id="inExp" placeholder="0.00" class="w-full bg-rose-50/50 p-4 rounded-2xl border-none ring-1 ring-rose-100 focus:ring-2 focus:ring-rose-500 font-black text-rose-600 text-sm outline-none">
+                    </div>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-[9px] font-black text-indigo-500 uppercase tracking-widest ml-1">Savings Goal</label>
+                    <input type="number" id="inSav" placeholder="0.00" class="w-full bg-indigo-50/30 p-4 rounded-2xl border-none ring-1 ring-indigo-100 focus:ring-2 focus:ring-indigo-500 font-black text-indigo-600 text-sm outline-none">
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Notes</label>
+                    <textarea id="inNote" placeholder="Client assignment etc..." rows="2" class="w-full bg-slate-50 p-4 rounded-2xl border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-500 font-medium text-slate-700 text-sm outline-none"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-indigo-600 text-white py-4.5 rounded-2xl font-black text-base shadow-xl btn-press py-4">
+                    Save Record
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase System -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXUjPo_M4Ov6k32fDtH62mcqkLpfOXzj4",
+            authDomain: "smartdocs-finance.firebaseapp.com",
+            projectId: "smartdocs-finance",
+            storageBucket: "smartdocs-finance.firebasestorage.app",
+            messagingSenderId: "409217197572",
+            appId: "1:409217197572:web:41557e30567ff7fac23751",
+            measurementId: "G-30X7KXS13R"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const COLLECTION_ID = 'smartdocs_v1';
+
+        let user = null;
+        let records = [];
+
+        onAuthStateChanged(auth, (u) => {
+            if (u) {
+                user = u;
+                document.getElementById('status-text').innerText = 'Online';
+                document.getElementById('status-dot').classList.replace('bg-yellow-400', 'bg-emerald-400');
+                const today = new Date();
+                document.getElementById('monthFilter').value = today.toISOString().slice(0, 7);
+                syncData();
+            } else {
+                signInAnonymously(auth);
+            }
+        });
+
+        function syncData() {
+            if (!user) return;
+            const ref = collection(db, 'artifacts', COLLECTION_ID, 'users', user.uid, 'finance_data');
+            onSnapshot(ref, (snap) => {
+                records = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+                    .sort((a, b) => new Date(b.date) - new Date(a.date));
+                renderList();
+            });
+        }
+
+        window.renderList = () => {
+            const filterMonth = document.getElementById('monthFilter').value;
+            const container = document.getElementById('data-list');
+            const filtered = records.filter(r => r.date.startsWith(filterMonth));
+            
+            const dateObj = new Date(filterMonth + '-01');
+            document.getElementById('label-month').innerText = dateObj.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+            document.getElementById('badge-count').innerText = `${filtered.length} Transactions`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 bg-white rounded-[2rem] border-2 border-dashed border-slate-50">
+                        <p class="text-slate-300 font-bold text-xs uppercase tracking-widest">No data for this month</p>
+                    </div>
+                `;
+                updateDash(0, 0, 0);
+                return;
+            }
+
+            let incT = 0, expT = 0, savT = 0;
+
+            container.innerHTML = filtered.map((r, i) => {
+                const inc = Number(r.income || 0);
+                const exp = Number(r.expense || 0);
+                const sav = Number(r.savings || 0);
+                incT += inc; expT += exp; savT += sav;
+
+                const dayDate = new Date(r.date);
+                const net = inc - exp;
+
+                return `
+                    <div class="bg-white p-4 rounded-[1.8rem] shadow-sm flex items-center gap-4 animate-card" style="animation-delay: ${i*0.05}s">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-50 flex flex-col items-center justify-center flex-shrink-0">
+                            <span class="text-[8px] font-black text-indigo-300 uppercase leading-none mb-1">${dayDate.toLocaleString('en-US', {month: 'short'})}</span>
+                            <span class="text-lg font-black text-indigo-700 leading-none">${dayDate.getDate()}</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-slate-800 truncate text-sm leading-tight">${r.note || 'SmartDocs Entry'}</h4>
+                            <div class="flex gap-2 mt-1">
+                                <span class="text-[8px] font-bold text-emerald-500 bg-emerald-50 px-2 rounded-md">+${inc}</span>
+                                <span class="text-[8px] font-bold text-rose-500 bg-rose-50 px-2 rounded-md">-${exp}</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end gap-2">
+                            <div class="flex gap-1">
+                                <button onclick="editEntry('${r.id}')" class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-300 hover:text-indigo-600"><i class="fas fa-pen text-[9px]"></i></button>
+                                <button onclick="deleteEntry('${r.id}')" class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-300 hover:text-rose-500"><i class="fas fa-trash-alt text-[9px]"></i></button>
+                            </div>
+                            <span class="text-xs font-black ${net >= 0 ? 'text-slate-800' : 'text-rose-600'}">Rs.${net.toLocaleString()}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            updateDash(incT, expT, savT);
+        };
+
+        function updateDash(i, e, s) {
+            document.getElementById('val-income').innerText = `Rs. ${i.toLocaleString()}`;
+            document.getElementById('val-expense').innerText = `Rs. ${e.toLocaleString()}`;
+            document.getElementById('val-savings').innerText = `Rs. ${s.toLocaleString()}`;
+            document.getElementById('val-balance').innerText = `Rs. ${(i - e).toLocaleString()}`;
+        }
+
+        document.getElementById('mainForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editId').value;
+            const data = {
+                date: document.getElementById('inDate').value,
+                income: parseFloat(document.getElementById('inInc').value) || 0,
+                expense: parseFloat(document.getElementById('inExp').value) || 0,
+                savings: parseFloat(document.getElementById('inSav').value) || 0,
+                note: document.getElementById('inNote').value,
+                ts: new Date().getTime()
+            };
+            const ref = collection(db, 'artifacts', COLLECTION_ID, 'users', user.uid, 'finance_data');
+            try {
+                if (id) await updateDoc(doc(ref, id), data);
+                else await addDoc(ref, data);
+                toggleModal(false);
+            } catch (err) { alert("Data save error!"); }
+        });
+
+        window.toggleModal = (show) => {
+            const modal = document.getElementById('formModal');
+            const sheet = document.getElementById('sheetBox');
+            if (show) {
+                modal.classList.remove('hidden');
+                setTimeout(() => sheet.classList.remove('hidden-sheet'), 10);
+                document.getElementById('inDate').value = new Date().toISOString().slice(0, 10);
+            } else {
+                sheet.classList.add('hidden-sheet');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.getElementById('mainForm').reset();
+                    document.getElementById('editId').value = "";
+                    document.getElementById('formLabel').innerText = "New Entry";
+                }, 400);
+            }
+        };
+
+        window.editEntry = (id) => {
+            const r = records.find(x => x.id === id);
+            if (!r) return;
+            document.getElementById('formLabel').innerText = "Update Record";
+            document.getElementById('editId').value = r.id;
+            document.getElementById('inDate').value = r.date;
+            document.getElementById('inInc').value = r.income;
+            document.getElementById('inExp').value = r.expense;
+            document.getElementById('inSav').value = r.savings;
+            document.getElementById('inNote').value = r.note;
+            toggleModal(true);
+        };
+
+        window.deleteEntry = async (id) => {
+            if (confirm("Delete this record?")) {
+                await deleteDoc(doc(db, 'artifacts', COLLECTION_ID, 'users', user.uid, 'finance_data', id));
+            }
+        };
+
+        window.downloadReport = () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const month = document.getElementById('monthFilter').value;
+            const filtered = records.filter(r => r.date.startsWith(month));
+            if (filtered.length === 0) return;
+            doc.setFillColor(79, 70, 229);
+            doc.rect(0, 0, 210, 40, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(22);
+            doc.text("SMARTDOCS SRI LANKA", 15, 25);
+            doc.setFontSize(10);
+            doc.text(`Monthly Finance Report: ${month}`, 15, 35);
+            let tI = 0, tE = 0, tS = 0;
+            const rows = filtered.map(r => {
+                tI += Number(r.income); tE += Number(r.expense); tS += Number(r.savings);
+                return [r.date, r.note, `Rs.${r.income}`, `Rs.${r.expense}`, `Rs.${r.savings}`, `Rs.${r.income - r.expense}`];
+            });
+            doc.autoTable({
+                startY: 50,
+                head: [['Date', 'Description', 'Income', 'Expense', 'Savings', 'Net']],
+                body: rows,
+                headStyles: { fillColor: [79, 70, 229] }
+            });
+            doc.save(`SmartDocs_Finance_${month}.pdf`);
+        };
+    </script>
+</body>
+</html>
