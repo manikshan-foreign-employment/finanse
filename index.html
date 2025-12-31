@@ -54,15 +54,15 @@
         }
         .action-btn:active { transform: scale(0.92); }
 
-        /* Entry Form Table Layout */
+        /* Compact Entry Form Table Layout */
         .entry-row {
             display: flex;
             align-items: center;
             border-bottom: 1px solid #f1f5f9;
-            padding: 16px 20px;
+            padding: 10px 16px;
         }
         .entry-label {
-            width: 110px;
+            width: 90px;
             font-size: 10px;
             font-weight: 800;
             text-transform: uppercase;
@@ -76,8 +76,8 @@
             background: transparent;
             border: none;
             outline: none;
-            padding: 4px 8px;
-            font-size: 14px;
+            padding: 6px 8px;
+            font-size: 13px;
             text-align: right;
         }
 
@@ -199,19 +199,20 @@
     <!-- Entry Form Sheet -->
     <div id="formOverlay" class="fixed inset-0 z-[100] hidden flex items-end">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onclick="closeEntryForm()"></div>
-        <div id="formSheet" class="relative w-full bg-white rounded-t-[3.5rem] p-10 pb-12 shadow-2xl transition-transform duration-500 transform translate-y-full">
-            <div class="w-12 h-1 bg-slate-200 rounded-full mx-auto mb-10"></div>
+        <div id="formSheet" class="relative w-full bg-white rounded-t-[3rem] p-6 pb-10 shadow-2xl transition-transform duration-500 transform translate-y-full max-h-[90vh] overflow-y-auto">
+            <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto mb-6"></div>
             
-            <div class="flex items-center justify-between mb-8">
-                <button onclick="closeEntryForm()" class="flex items-center gap-2 text-slate-400 text-[10px] font-black uppercase tracking-widest action-btn">
-                    <i class="fas fa-chevron-left bg-slate-50 w-10 h-10 rounded-2xl flex items-center justify-center text-xs"></i> Back
+            <div class="flex items-center justify-between mb-6 px-2">
+                <button onclick="closeEntryForm()" class="flex items-center gap-2 text-slate-400 text-[9px] font-black uppercase tracking-widest action-btn">
+                    <i class="fas fa-chevron-left bg-slate-50 w-8 h-8 rounded-xl flex items-center justify-center text-[10px]"></i> Back
                 </button>
-                <h3 id="formTitle" class="text-xl font-black text-slate-800 tracking-tight">New Record</h3>
+                <h3 id="formTitle" class="text-base font-black text-slate-800 tracking-tight">New Record</h3>
+                <div class="w-12"></div> <!-- Spacer for centering title -->
             </div>
 
             <form id="financeForm">
                 <input type="hidden" id="editId">
-                <div class="bg-slate-50 rounded-[2.5rem] border border-slate-100 overflow-hidden mb-8">
+                <div class="bg-slate-50 rounded-[2rem] border border-slate-100 overflow-hidden mb-6">
                     <div class="entry-row">
                         <div class="entry-label">Date</div>
                         <input type="date" id="inDate" required class="entry-input">
@@ -240,21 +241,27 @@
                     </div>
                 </div>
 
-                <!-- Preview Area -->
-                <div class="bg-slate-900 p-8 rounded-[3rem] mb-8 shadow-xl">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Net Profit</span>
-                        <span id="live-net" class="font-black text-white italic text-lg tracking-tighter">Rs. 0.00</span>
+                <!-- Compact Preview Area -->
+                <div class="bg-slate-900 p-6 rounded-[2rem] mb-6 shadow-lg border border-white/5">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Net Profit</span>
+                        <span id="live-net" class="font-black text-white italic text-base tracking-tighter">Rs. 0.00</span>
                     </div>
-                    <div class="flex justify-between items-center pt-3 border-t border-white/5">
-                        <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Hand Cash</span>
-                        <span id="live-cash" class="font-black text-indigo-400 italic text-2xl tracking-tighter">Rs. 0.00</span>
+                    <div class="flex justify-between items-center pt-2 border-t border-white/5">
+                        <span class="text-[9px] font-black text-indigo-400 uppercase tracking-widest">Hand Cash</span>
+                        <span id="live-cash" class="font-black text-indigo-400 italic text-xl tracking-tighter">Rs. 0.00</span>
                     </div>
                 </div>
 
-                <button type="submit" id="saveBtn" class="w-full bg-slate-900 text-white py-5 rounded-[2.2rem] font-black text-[11px] uppercase tracking-[0.2em] shadow-2xl action-btn">
-                    Confirm & Save
-                </button>
+                <!-- Side-by-Side Buttons -->
+                <div class="flex gap-3 px-1">
+                    <button type="button" onclick="closeEntryForm()" class="flex-1 bg-slate-100 text-slate-400 py-3.5 rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest action-btn">
+                        Discard
+                    </button>
+                    <button type="submit" id="saveBtn" class="flex-1 bg-slate-900 text-white py-3.5 rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest shadow-xl action-btn">
+                        Save Record
+                    </button>
+                </div>
             </form>
         </div>
     </div>
