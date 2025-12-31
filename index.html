@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SmartDocs - Finance Pro</title>
-    <!-- Tailwind CSS -->
+    <title>SmartDocs SL - Charuka Dilshan</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- PDF Generation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -19,180 +16,168 @@
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: #f8fafc;
             color: #0f172a;
-            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .brand-gradient {
-            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+        /* Premium Dark Header Gradient */
+        .premium-header {
+            background: linear-gradient(180deg, #020617 0%, #1e1b4b 100%);
         }
 
-        .stat-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        /* Luxury Balance Card Gradient */
+        .balance-card-premium {
+            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 50%, #1e1b4b 100%);
+            box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.3);
         }
 
-        .bottom-sheet {
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border-top-left-radius: 2rem;
-            border-top-right-radius: 2rem;
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .hidden-sheet {
-            transform: translateY(100%);
+        .action-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .action-btn:active { transform: scale(0.92); }
 
-        .btn-press:active {
-            transform: scale(0.96);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-card {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        /* Custom Scrollbar for list */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        .pill {
-            @apply px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider;
+        .nav-active {
+            background: white;
+            color: #1e1b4b;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
     </style>
 </head>
-<body class="pb-24 overflow-x-hidden no-scrollbar">
+<body class="pb-24">
 
-    <!-- Compact Mobile Header -->
-    <header class="brand-gradient text-white px-6 pt-10 pb-20 rounded-b-[2.5rem] shadow-xl sticky top-0 z-40">
-        <div class="max-w-md mx-auto">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h1 class="text-2xl font-extrabold tracking-tight">SmartDocs</h1>
-                    <div id="status-bar" class="flex items-center gap-2 mt-1 opacity-90">
-                        <span id="status-dot" class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
-                        <span id="status-text" class="text-[9px] font-bold uppercase tracking-widest">Syncing</span>
-                    </div>
-                </div>
-                <button onclick="downloadReport()" class="bg-white/10 p-2.5 rounded-xl border border-white/20 backdrop-blur-md btn-press">
-                    <i class="fas fa-file-pdf text-sm"></i>
-                </button>
+    <header class="premium-header text-white px-6 pt-12 pb-20 rounded-b-[4rem] shadow-2xl mb-6 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+            <div class="absolute top-[-10%] left-[-10%] w-64 h-64 bg-indigo-500 rounded-full blur-[100px]"></div>
+        </div>
+        
+        <div class="max-w-md mx-auto text-center relative z-10">
+            <h1 class="text-2xl font-black tracking-[0.25em] uppercase leading-tight">SMART DOCS</h1>
+            <h2 class="text-indigo-400 text-lg font-extrabold tracking-[0.15em] mb-2">SRI LANKA</h2>
+            <div class="inline-block px-4 py-1 rounded-full bg-white/5 border border-white/10">
+                <p class="text-[9px] font-bold text-indigo-200 uppercase tracking-widest">Charuka Dilshan | Business Suite</p>
             </div>
 
-            <!-- Dashboard Wallet Card -->
-            <div class="bg-white rounded-[2rem] p-6 shadow-2xl text-slate-800 absolute left-6 right-6 top-32 z-20">
-                <div class="flex justify-between items-center mb-4">
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Monthly Balance</p>
-                    <span id="label-month" class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">May 2024</span>
-                </div>
-                
-                <h2 id="val-balance" class="text-3xl font-black tracking-tighter text-slate-900 mb-6">Rs. 0.00</h2>
-                
-                <div class="grid grid-cols-2 gap-3 pt-4 border-t border-slate-50">
-                    <div class="flex flex-col">
-                        <span class="text-[9px] font-bold text-emerald-500 uppercase mb-1">Income</span>
-                        <p id="val-income" class="text-sm font-black text-slate-700">Rs. 0</p>
-                    </div>
-                    <div class="flex flex-col text-right">
-                        <span class="text-[9px] font-bold text-rose-500 uppercase mb-1">Expense</span>
-                        <p id="val-expense" class="text-sm font-black text-slate-700">Rs. 0</p>
-                    </div>
+            <div class="flex justify-center mt-8">
+                <div class="flex bg-black/40 p-1.5 rounded-2xl border border-white/5 backdrop-blur-md">
+                    <button onclick="switchView('home')" id="tab-home" class="nav-active px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all">Overview</button>
+                    <button onclick="switchView('history')" id="tab-history" class="px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-white/50">History</button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="max-w-md mx-auto px-6 mt-40 relative z-10">
+    <main class="max-w-md mx-auto px-5 -mt-12">
         
-        <!-- Filter Bar -->
-        <div class="flex items-center gap-4 mb-6">
-            <div class="flex-1 bg-white p-3 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3">
-                <i class="fas fa-search text-slate-300 text-xs"></i>
-                <input type="month" id="monthFilter" class="bg-transparent border-none focus:ring-0 text-xs font-bold text-slate-600 w-full outline-none" onchange="renderList()">
-            </div>
-            <div class="bg-indigo-600 px-4 py-3 rounded-2xl text-white shadow-lg flex items-center gap-2">
-                <i class="fas fa-piggy-bank text-xs"></i>
-                <span id="val-savings" class="text-xs font-black">Rs. 0</span>
-            </div>
-        </div>
-
-        <!-- Transactions Header -->
-        <div class="flex justify-between items-center mb-4 px-1">
-            <h3 class="text-slate-800 font-bold text-base tracking-tight">Recent History</h3>
-            <span id="badge-count" class="text-[9px] font-black text-slate-400 uppercase tracking-widest">0 Records</span>
-        </div>
-
-        <!-- Transactions List -->
-        <div id="data-list" class="space-y-3 no-scrollbar">
-            <!-- Skeleton Loader -->
-            <div class="bg-white p-4 rounded-3xl shadow-sm animate-pulse flex items-center gap-4">
-                <div class="w-12 h-12 bg-slate-50 rounded-2xl"></div>
-                <div class="flex-1 space-y-2">
-                    <div class="h-3 bg-slate-50 rounded w-2/3"></div>
-                    <div class="h-2 bg-slate-50 rounded w-1/3"></div>
+        <div id="view-home">
+            <div class="balance-card-premium rounded-[3rem] p-8 relative overflow-hidden mb-8 border border-white/10">
+                <div class="absolute bottom-0 right-0 w-40 h-40 bg-indigo-400/20 rounded-full -mb-20 -mr-20 blur-3xl"></div>
+                
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-4">
+                        <p class="text-indigo-100/70 text-[10px] font-black uppercase tracking-widest">Available Net Profit</p>
+                        <i class="fas fa-wallet text-indigo-300/50"></i>
+                    </div>
+                    <h2 id="summary-balance" class="text-4xl font-black text-white tracking-tighter italic mb-8">Rs. 0.00</h2>
+                    
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="glass-effect p-3 rounded-2xl">
+                            <p class="text-[8px] uppercase font-black text-emerald-400 mb-1">Income</p>
+                            <p id="summary-income" class="text-[11px] font-extrabold text-white">Rs. 0</p>
+                        </div>
+                        <div class="glass-effect p-3 rounded-2xl">
+                            <p class="text-[8px] uppercase font-black text-rose-400 mb-1">Expense</p>
+                            <p id="summary-expense" class="text-[11px] font-extrabold text-white">Rs. 0</p>
+                        </div>
+                        <div class="glass-effect p-3 rounded-2xl">
+                            <p class="text-[8px] uppercase font-black text-amber-400 mb-1">Savings</p>
+                            <p id="summary-savings" class="text-[11px] font-extrabold text-white">Rs. 0</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div class="flex justify-between items-center mb-5 px-2">
+                <h3 class="font-black text-slate-800 text-sm tracking-tight">Recent Transactions</h3>
+                <div class="bg-white px-3 py-1.5 rounded-xl shadow-sm border border-slate-100">
+                    <input type="month" id="monthFilter" class="bg-transparent border-none text-[10px] font-black text-indigo-600 outline-none" onchange="loadRecords()">
+                </div>
+            </div>
+
+            <div id="records-list" class="space-y-4">
+                <div class="text-center py-20 text-slate-400 italic text-xs">Syncing with server...</div>
+            </div>
+        </div>
+
+        <div id="view-history" class="hidden animate-fade-in">
+            <h3 class="font-black text-slate-800 text-sm tracking-tight px-2 mb-6">Archived Monthly Reports</h3>
+            <div id="history-container" class="space-y-4"></div>
         </div>
     </main>
 
-    <!-- Professional Bottom FAB -->
-    <button onclick="toggleModal(true)" class="fixed bottom-8 right-6 w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center text-xl shadow-[0_12px_24px_-4px_rgba(79,70,229,0.4)] z-50 btn-press">
-        <i class="fas fa-plus"></i>
+    <button onclick="openEntryForm()" class="fixed bottom-8 right-6 w-16 h-16 bg-slate-900 text-white rounded-[2rem] flex items-center justify-center shadow-2xl z-50 action-btn border-4 border-white">
+        <i class="fas fa-plus text-xl"></i>
     </button>
 
-    <!-- Bottom Sheet Modal -->
-    <div id="formModal" class="fixed inset-0 z-[100] hidden">
-        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="toggleModal(false)"></div>
-        <div id="sheetBox" class="absolute bottom-0 left-0 right-0 bg-white p-8 bottom-sheet hidden-sheet shadow-2xl">
-            <div class="w-12 h-1 bg-slate-100 rounded-full mx-auto mb-6"></div>
+    <div id="formOverlay" class="fixed inset-0 z-[100] hidden flex items-end">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onclick="closeEntryForm()"></div>
+        <div id="formSheet" class="relative w-full bg-white rounded-t-[4rem] p-10 shadow-2xl transition-transform duration-500 transform translate-y-full">
+            <div class="w-16 h-1.5 bg-slate-100 rounded-full mx-auto mb-8"></div>
             
-            <div class="flex justify-between items-center mb-6">
-                <h3 id="formLabel" class="text-xl font-extrabold text-slate-800">Add Entry</h3>
-                <button onclick="toggleModal(false)" class="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">
-                    <i class="fas fa-times text-xs"></i>
-                </button>
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
+                    <i class="fas fa-file-invoice-dollar text-xl"></i>
+                </div>
+                <h3 id="formTitle" class="text-2xl font-black text-slate-800 tracking-tight">New Entry</h3>
             </div>
 
-            <form id="mainForm" class="space-y-5">
+            <form id="financeForm" class="space-y-5">
                 <input type="hidden" id="editId">
-                <div class="space-y-1.5">
-                    <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Date</label>
-                    <input type="date" id="inDate" required class="w-full bg-slate-50 p-4 rounded-2xl border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-500 font-bold text-sm outline-none">
-                </div>
-
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-[9px] font-black text-emerald-500 uppercase tracking-widest ml-1">Income</label>
-                        <input type="number" id="inInc" placeholder="0.00" class="w-full bg-emerald-50/50 p-4 rounded-2xl border-none ring-1 ring-emerald-100 focus:ring-2 focus:ring-emerald-500 font-black text-emerald-600 text-sm outline-none">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Date</label>
+                        <input type="date" id="inDate" required class="w-full bg-slate-50 p-4 rounded-[1.5rem] border-none font-bold text-slate-700 focus:ring-2 focus:ring-indigo-500">
                     </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[9px] font-black text-rose-500 uppercase tracking-widest ml-1">Expense</label>
-                        <input type="number" id="inExp" placeholder="0.00" class="w-full bg-rose-50/50 p-4 rounded-2xl border-none ring-1 ring-rose-100 focus:ring-2 focus:ring-rose-500 font-black text-rose-600 text-sm outline-none">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Category</label>
+                        <select id="inNote" required class="w-full bg-slate-50 p-4 rounded-[1.5rem] border-none font-bold text-slate-700 appearance-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="Assignment work">Assignment</option>
+                            <option value="CV Document">CV Document</option>
+                            <option value="System">System Dev</option>
+                            <option value="Letter">Letter</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
                 </div>
 
-                <div class="space-y-1.5">
-                    <label class="text-[9px] font-black text-indigo-500 uppercase tracking-widest ml-1">Savings Goal</label>
-                    <input type="number" id="inSav" placeholder="0.00" class="w-full bg-indigo-50/30 p-4 rounded-2xl border-none ring-1 ring-indigo-100 focus:ring-2 focus:ring-indigo-500 font-black text-indigo-600 text-sm outline-none">
+                <div class="space-y-4">
+                    <div class="relative">
+                        <input type="number" id="inInc" placeholder="Income (Rs.)" class="w-full bg-emerald-50/50 p-5 rounded-[1.5rem] border-none font-black text-emerald-600 placeholder:text-emerald-300 text-lg" oninput="calculateLiveBalance()">
+                    </div>
+                    <div class="relative">
+                        <input type="number" id="inExp" placeholder="Expense (Rs.)" class="w-full bg-rose-50/50 p-5 rounded-[1.5rem] border-none font-black text-rose-600 placeholder:text-rose-300 text-lg" oninput="calculateLiveBalance()">
+                    </div>
+                    <div class="relative">
+                        <input type="number" id="inSav" placeholder="Savings (Rs.)" class="w-full bg-amber-50/50 p-5 rounded-[1.5rem] border-none font-black text-amber-600 placeholder:text-amber-300 text-lg">
+                    </div>
                 </div>
 
-                <div class="space-y-1.5">
-                    <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Notes</label>
-                    <textarea id="inNote" placeholder="Client assignment etc..." rows="2" class="w-full bg-slate-50 p-4 rounded-2xl border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-500 font-medium text-slate-700 text-sm outline-none"></textarea>
+                <div class="bg-slate-900 p-6 rounded-[2rem] flex justify-between items-center shadow-xl">
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Net Profit</span>
+                    <span id="live-balance" class="font-black text-white italic text-xl tracking-tighter">Rs. 0.00</span>
                 </div>
 
-                <button type="submit" class="w-full bg-indigo-600 text-white py-4.5 rounded-2xl font-black text-base shadow-xl btn-press py-4">
-                    Save Record
+                <button type="submit" id="saveBtn" class="w-full bg-indigo-600 text-white py-5 rounded-[2rem] font-black text-lg shadow-2xl shadow-indigo-200 action-btn uppercase tracking-widest">
+                    Confirm & Save
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Firebase System -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -204,25 +189,21 @@
             projectId: "smartdocs-finance",
             storageBucket: "smartdocs-finance.firebasestorage.app",
             messagingSenderId: "409217197572",
-            appId: "1:409217197572:web:41557e30567ff7fac23751",
-            measurementId: "G-30X7KXS13R"
+            appId: "1:409217197572:web:41557e30567ff7fac23751"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const COLLECTION_ID = 'smartdocs_v1';
+        const appId = 'smartdocs-finance-v1';
 
-        let user = null;
-        let records = [];
+        let currentUser = null;
+        let allRecords = [];
 
-        onAuthStateChanged(auth, (u) => {
-            if (u) {
-                user = u;
-                document.getElementById('status-text').innerText = 'Online';
-                document.getElementById('status-dot').classList.replace('bg-yellow-400', 'bg-emerald-400');
-                const today = new Date();
-                document.getElementById('monthFilter').value = today.toISOString().slice(0, 7);
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) {
+                document.getElementById('monthFilter').value = new Date().toISOString().slice(0, 7);
                 syncData();
             } else {
                 signInAnonymously(auth);
@@ -230,159 +211,191 @@
         });
 
         function syncData() {
-            if (!user) return;
-            const ref = collection(db, 'artifacts', COLLECTION_ID, 'users', user.uid, 'finance_data');
-            onSnapshot(ref, (snap) => {
-                records = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+            const dataRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'finance_data');
+            onSnapshot(dataRef, (snap) => {
+                allRecords = snap.docs.map(d => ({ id: d.id, ...d.data() }))
                     .sort((a, b) => new Date(b.date) - new Date(a.date));
-                renderList();
+                loadRecords();
+                if(!document.getElementById('view-history').classList.contains('hidden')) renderHistory();
             });
         }
 
-        window.renderList = () => {
-            const filterMonth = document.getElementById('monthFilter').value;
-            const container = document.getElementById('data-list');
-            const filtered = records.filter(r => r.date.startsWith(filterMonth));
+        window.loadRecords = () => {
+            const filter = document.getElementById('monthFilter').value;
+            const container = document.getElementById('records-list');
+            const filtered = allRecords.filter(r => r.date.startsWith(filter));
             
-            const dateObj = new Date(filterMonth + '-01');
-            document.getElementById('label-month').innerText = dateObj.toLocaleString('en-US', { month: 'short', year: 'numeric' });
-            document.getElementById('badge-count').innerText = `${filtered.length} Transactions`;
-
             if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-16 bg-white rounded-[2rem] border-2 border-dashed border-slate-50">
-                        <p class="text-slate-300 font-bold text-xs uppercase tracking-widest">No data for this month</p>
-                    </div>
-                `;
-                updateDash(0, 0, 0);
+                container.innerHTML = `<div class="bg-white rounded-[2rem] p-16 text-center text-slate-300 font-bold text-[10px] uppercase tracking-widest shadow-sm border border-slate-100">No transactions recorded</div>`;
+                updateDashboard(0, 0, 0);
                 return;
             }
 
-            let incT = 0, expT = 0, savT = 0;
-
-            container.innerHTML = filtered.map((r, i) => {
-                const inc = Number(r.income || 0);
-                const exp = Number(r.expense || 0);
-                const sav = Number(r.savings || 0);
-                incT += inc; expT += exp; savT += sav;
-
-                const dayDate = new Date(r.date);
+            let tInc = 0, tExp = 0, tSav = 0;
+            container.innerHTML = filtered.map(rec => {
+                const inc = Number(rec.income || 0);
+                const exp = Number(rec.expense || 0);
+                const sav = Number(rec.savings || 0);
                 const net = inc - exp;
+                tInc += inc; tExp += exp; tSav += sav;
 
                 return `
-                    <div class="bg-white p-4 rounded-[1.8rem] shadow-sm flex items-center gap-4 animate-card" style="animation-delay: ${i*0.05}s">
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-50 flex flex-col items-center justify-center flex-shrink-0">
-                            <span class="text-[8px] font-black text-indigo-300 uppercase leading-none mb-1">${dayDate.toLocaleString('en-US', {month: 'short'})}</span>
-                            <span class="text-lg font-black text-indigo-700 leading-none">${dayDate.getDate()}</span>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-bold text-slate-800 truncate text-sm leading-tight">${r.note || 'SmartDocs Entry'}</h4>
-                            <div class="flex gap-2 mt-1">
-                                <span class="text-[8px] font-bold text-emerald-500 bg-emerald-50 px-2 rounded-md">+${inc}</span>
-                                <span class="text-[8px] font-bold text-rose-500 bg-rose-50 px-2 rounded-md">-${exp}</span>
+                    <div class="bg-white p-6 rounded-[2.5rem] shadow-sm flex items-center justify-between border border-slate-50">
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 ${net >= 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'} rounded-[1.5rem] flex items-center justify-center text-lg">
+                                <i class="fas ${net >= 0 ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-slate-800 text-xs tracking-tight">${rec.note}</h4>
+                                <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mt-1">${rec.date}</p>
                             </div>
                         </div>
-                        <div class="flex flex-col items-end gap-2">
-                            <div class="flex gap-1">
-                                <button onclick="editEntry('${r.id}')" class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-300 hover:text-indigo-600"><i class="fas fa-pen text-[9px]"></i></button>
-                                <button onclick="deleteEntry('${r.id}')" class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-300 hover:text-rose-500"><i class="fas fa-trash-alt text-[9px]"></i></button>
+                        <div class="text-right">
+                            <p class="font-black text-slate-900 text-sm tracking-tighter italic">Rs. ${net.toLocaleString()}</p>
+                            <div class="flex gap-3 justify-end mt-2">
+                                <button onclick="editEntry('${rec.id}')" class="text-indigo-400"><i class="fas fa-edit text-xs"></i></button>
+                                <button onclick="deleteEntry('${rec.id}')" class="text-slate-300"><i class="fas fa-trash text-xs"></i></button>
                             </div>
-                            <span class="text-xs font-black ${net >= 0 ? 'text-slate-800' : 'text-rose-600'}">Rs.${net.toLocaleString()}</span>
                         </div>
                     </div>
                 `;
             }).join('');
-            updateDash(incT, expT, savT);
+            updateDashboard(tInc, tExp, tSav);
         };
 
-        function updateDash(i, e, s) {
-            document.getElementById('val-income').innerText = `Rs. ${i.toLocaleString()}`;
-            document.getElementById('val-expense').innerText = `Rs. ${e.toLocaleString()}`;
-            document.getElementById('val-savings').innerText = `Rs. ${s.toLocaleString()}`;
-            document.getElementById('val-balance').innerText = `Rs. ${(i - e).toLocaleString()}`;
+        function updateDashboard(i, e, s) {
+            document.getElementById('summary-income').innerText = `Rs. ${i.toLocaleString()}`;
+            document.getElementById('summary-expense').innerText = `Rs. ${e.toLocaleString()}`;
+            document.getElementById('summary-savings').innerText = `Rs. ${s.toLocaleString()}`;
+            document.getElementById('summary-balance').innerText = `Rs. ${(i - e).toLocaleString(undefined, {minimumFractionDigits: 2})}`;
         }
 
-        document.getElementById('mainForm').addEventListener('submit', async (e) => {
+        window.switchView = (view) => {
+            const isHome = view === 'home';
+            document.getElementById('view-home').classList.toggle('hidden', !isHome);
+            document.getElementById('view-history').classList.toggle('hidden', isHome);
+            
+            document.getElementById('tab-home').className = isHome ? 'nav-active px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all' : 'px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-white/50';
+            document.getElementById('tab-history').className = !isHome ? 'nav-active px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all' : 'px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-white/50';
+            
+            if(!isHome) renderHistory();
+        };
+
+        window.renderHistory = () => {
+            const container = document.getElementById('history-container');
+            const months = {};
+            allRecords.forEach(r => {
+                const m = r.date.slice(0, 7);
+                if (!months[m]) months[m] = { inc: 0, exp: 0, count: 0 };
+                months[m].inc += Number(r.income);
+                months[m].exp += Number(r.expense);
+                months[m].count++;
+            });
+
+            const sortedMonths = Object.keys(months).sort().reverse();
+            if (sortedMonths.length === 0) {
+                container.innerHTML = `<div class="p-20 text-center text-slate-400 italic text-xs">No archived history</div>`;
+                return;
+            }
+
+            container.innerHTML = sortedMonths.map(m => {
+                const data = months[m];
+                const dObj = new Date(m + '-01');
+                const label = dObj.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+                return `
+                    <div class="bg-white p-6 rounded-[2.5rem] shadow-sm flex items-center justify-between border border-slate-100">
+                        <div>
+                            <h4 class="font-black text-slate-800 text-sm tracking-tight">${label}</h4>
+                            <p class="text-[9px] text-indigo-400 font-black uppercase tracking-widest mt-1">${data.count} Transactions</p>
+                        </div>
+                        <button onclick="downloadPDF('${m}')" class="w-14 h-14 bg-slate-900 text-white rounded-[1.5rem] flex items-center justify-center shadow-xl">
+                            <i class="fas fa-file-pdf"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        window.openEntryForm = () => {
+            document.getElementById('formOverlay').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('formSheet').classList.remove('translate-y-full');
+            }, 50);
+            document.getElementById('inDate').value = new Date().toISOString().slice(0, 10);
+        };
+
+        window.closeEntryForm = () => {
+            document.getElementById('formSheet').classList.add('translate-y-full');
+            setTimeout(() => {
+                document.getElementById('formOverlay').classList.add('hidden');
+                document.getElementById('financeForm').reset();
+                document.getElementById('editId').value = "";
+                document.getElementById('formTitle').innerText = "New Entry";
+            }, 400);
+        };
+
+        window.calculateLiveBalance = () => {
+            const inc = parseFloat(document.getElementById('inInc').value) || 0;
+            const exp = parseFloat(document.getElementById('inExp').value) || 0;
+            document.getElementById('live-balance').innerText = `Rs. ${(inc - exp).toLocaleString()}`;
+        };
+
+        document.getElementById('financeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('editId').value;
-            const data = {
+            const payload = {
                 date: document.getElementById('inDate').value,
                 income: parseFloat(document.getElementById('inInc').value) || 0,
                 expense: parseFloat(document.getElementById('inExp').value) || 0,
                 savings: parseFloat(document.getElementById('inSav').value) || 0,
                 note: document.getElementById('inNote').value,
-                ts: new Date().getTime()
+                updatedAt: new Date().getTime()
             };
-            const ref = collection(db, 'artifacts', COLLECTION_ID, 'users', user.uid, 'finance_data');
-            try {
-                if (id) await updateDoc(doc(ref, id), data);
-                else await addDoc(ref, data);
-                toggleModal(false);
-            } catch (err) { alert("Data save error!"); }
+            const colRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'finance_data');
+            if (id) await updateDoc(doc(colRef, id), payload);
+            else await addDoc(colRef, payload);
+            closeEntryForm();
         });
 
-        window.toggleModal = (show) => {
-            const modal = document.getElementById('formModal');
-            const sheet = document.getElementById('sheetBox');
-            if (show) {
-                modal.classList.remove('hidden');
-                setTimeout(() => sheet.classList.remove('hidden-sheet'), 10);
-                document.getElementById('inDate').value = new Date().toISOString().slice(0, 10);
-            } else {
-                sheet.classList.add('hidden-sheet');
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                    document.getElementById('mainForm').reset();
-                    document.getElementById('editId').value = "";
-                    document.getElementById('formLabel').innerText = "New Entry";
-                }, 400);
-            }
-        };
-
         window.editEntry = (id) => {
-            const r = records.find(x => x.id === id);
-            if (!r) return;
-            document.getElementById('formLabel').innerText = "Update Record";
+            const r = allRecords.find(x => x.id === id);
             document.getElementById('editId').value = r.id;
             document.getElementById('inDate').value = r.date;
             document.getElementById('inInc').value = r.income;
             document.getElementById('inExp').value = r.expense;
             document.getElementById('inSav').value = r.savings;
             document.getElementById('inNote').value = r.note;
-            toggleModal(true);
+            document.getElementById('formTitle').innerText = "Update Entry";
+            openEntryForm();
         };
 
         window.deleteEntry = async (id) => {
-            if (confirm("Delete this record?")) {
-                await deleteDoc(doc(db, 'artifacts', COLLECTION_ID, 'users', user.uid, 'finance_data', id));
+            if (confirm("Delete this record permanently?")) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'finance_data', id));
             }
         };
 
-        window.downloadReport = () => {
+        window.downloadPDF = (month) => {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            const month = document.getElementById('monthFilter').value;
-            const filtered = records.filter(r => r.date.startsWith(month));
-            if (filtered.length === 0) return;
-            doc.setFillColor(79, 70, 229);
+            const filtered = allRecords.filter(r => r.date.startsWith(month));
+            
+            doc.setFillColor(15, 23, 42);
             doc.rect(0, 0, 210, 40, 'F');
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(22);
-            doc.text("SMARTDOCS SRI LANKA", 15, 25);
+            doc.setFontSize(18);
+            doc.text("SMARTDOCS SRI LANKA", 15, 20);
             doc.setFontSize(10);
-            doc.text(`Monthly Finance Report: ${month}`, 15, 35);
-            let tI = 0, tE = 0, tS = 0;
-            const rows = filtered.map(r => {
-                tI += Number(r.income); tE += Number(r.expense); tS += Number(r.savings);
-                return [r.date, r.note, `Rs.${r.income}`, `Rs.${r.expense}`, `Rs.${r.savings}`, `Rs.${r.income - r.expense}`];
-            });
+            doc.text(`Monthly Statement: ${month} (Charuka Dilshan)`, 15, 30);
+            
+            const rows = filtered.map(r => [r.date, r.note, r.income.toLocaleString(), r.expense.toLocaleString(), (r.income - r.expense).toLocaleString()]);
             doc.autoTable({
                 startY: 50,
-                head: [['Date', 'Description', 'Income', 'Expense', 'Savings', 'Net']],
+                head: [['Date', 'Description', 'Income', 'Expense', 'Net Profit']],
                 body: rows,
-                headStyles: { fillColor: [79, 70, 229] }
+                headStyles: { fillColor: [15, 23, 42] }
             });
-            doc.save(`SmartDocs_Finance_${month}.pdf`);
+            doc.save(`SmartDocs_Report_${month}.pdf`);
         };
     </script>
 </body>
