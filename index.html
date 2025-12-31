@@ -23,7 +23,6 @@
             background: linear-gradient(180deg, #020617 0%, #1e1b4b 100%);
         }
 
-        /* Luxury Card Styles */
         .luxury-card {
             background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
             box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.4);
@@ -54,7 +53,6 @@
         }
         .action-btn:active { transform: scale(0.92); }
 
-        /* Compact Entry Form Table Layout */
         .entry-row {
             display: flex;
             align-items: center;
@@ -88,11 +86,28 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        .preview-stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .preview-stat-label {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #64748b;
+        }
+        .preview-stat-value {
+            font-weight: 800;
+            color: #0f172a;
+        }
     </style>
 </head>
 <body class="pb-32">
 
-    <!-- Brand Header -->
+    <!-- Brand Header (Mukhya Mathala) -->
     <header class="premium-header text-white px-8 pt-12 pb-24 rounded-b-[3.5rem] shadow-2xl mb-6 relative">
         <div class="max-w-md mx-auto text-center relative z-10">
             <h1 class="text-2xl font-black tracking-[0.25em] uppercase leading-tight">SMART DOCS</h1>
@@ -105,9 +120,9 @@
 
     <main class="max-w-md mx-auto px-6 -mt-16 relative z-20">
         
-        <!-- Overview Tab -->
+        <!-- Overview Tab (Avalokana) -->
         <div id="view-home" class="view-transition">
-            <!-- Available Cash in Hand Card -->
+            <!-- Available Cash in Hand Card (Rokh Balance Card) -->
             <div class="cash-card rounded-[3rem] p-10 mb-6 border border-white/10 relative overflow-hidden text-center">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
                 <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.3em] mb-2">Available Cash in Hand</p>
@@ -118,10 +133,10 @@
                 </div>
             </div>
 
-            <!-- Detailed Month Summary Grid -->
+            <!-- Summary Grid (Sankshipta Mahiti) -->
             <div class="bg-white rounded-[2.5rem] p-8 mb-8 shadow-xl shadow-slate-200/50 border border-slate-50">
                 <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-black text-slate-800 text-[11px] uppercase tracking-widest">Month Summary</h3>
+                    <h3 class="font-black text-slate-800 text-[11px] uppercase tracking-widest">Filter Summary</h3>
                     <h4 id="summary-net" class="font-black text-indigo-600 text-sm italic">Net: Rs. 0.00</h4>
                 </div>
                 <div class="grid grid-cols-3 gap-3">
@@ -140,25 +155,31 @@
                 </div>
             </div>
 
-            <!-- Filter Sticky Header -->
+            <!-- Category Filter Header (Shreni Gara) -->
             <div class="flex justify-between items-center mb-6 px-2">
                 <h3 class="font-black text-slate-800 text-sm tracking-tight flex items-center gap-2">
                     <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Recent Business
                 </h3>
                 <div class="bg-white px-3 py-1.5 rounded-xl shadow-sm border border-slate-100">
-                    <input type="month" id="monthFilter" class="bg-transparent border-none text-[10px] font-black text-slate-800 outline-none" onchange="loadRecords()">
+                    <select id="categoryFilter" class="bg-transparent border-none text-[10px] font-black text-slate-800 outline-none appearance-none pr-4" onchange="loadRecords()">
+                        <option value="All">All Categories</option>
+                        <option value="Assignment work">Assignment Work</option>
+                        <option value="CV Document">CV Document</option>
+                        <option value="System">System Dev</option>
+                        <option value="Letter">Letter Writing</option>
+                        <option value="Other">Other Service</option>
+                    </select>
                 </div>
             </div>
 
-            <!-- Record List -->
+            <!-- List Container (Yadi) -->
             <div id="records-list" class="space-y-4 mb-16">
                 <div class="text-center py-20 text-slate-300 font-bold text-[10px] uppercase tracking-widest">Loading...</div>
             </div>
         </div>
 
-        <!-- History Tab -->
+        <!-- History Tab (Itihas) -->
         <div id="view-history" class="hidden view-transition">
-            <!-- Report Generator -->
             <div class="bg-white rounded-[2.5rem] p-8 mb-8 shadow-xl shadow-slate-200/50 border border-slate-50">
                 <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Financial Report Generator</h4>
                 <div class="grid grid-cols-2 gap-4 mb-6">
@@ -179,7 +200,7 @@
         </div>
     </main>
 
-    <!-- Fixed Bottom Navigation -->
+    <!-- Bottom Navigation (Khalchi Navigation) -->
     <nav class="fixed bottom-0 left-0 right-0 h-20 bottom-nav flex items-center justify-around px-10 z-[60] rounded-t-[2.5rem] shadow-[-10px_-10px_30px_rgba(0,0,0,0.03)]">
         <button onclick="switchView('home')" id="nav-home" class="nav-item active action-btn flex flex-col items-center">
             <i class="fas fa-th-large text-xl mb-1"></i>
@@ -196,7 +217,7 @@
         </button>
     </nav>
 
-    <!-- Entry Form Sheet -->
+    <!-- Entry Form (Naveen Nond) -->
     <div id="formOverlay" class="fixed inset-0 z-[100] hidden flex items-end">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onclick="closeEntryForm()"></div>
         <div id="formSheet" class="relative w-full bg-white rounded-t-[3rem] p-6 pb-10 shadow-2xl transition-transform duration-500 transform translate-y-full max-h-[90vh] overflow-y-auto">
@@ -207,7 +228,7 @@
                     <i class="fas fa-chevron-left bg-slate-50 w-8 h-8 rounded-xl flex items-center justify-center text-[10px]"></i> Back
                 </button>
                 <h3 id="formTitle" class="text-base font-black text-slate-800 tracking-tight">New Record</h3>
-                <div class="w-12"></div> <!-- Spacer for centering title -->
+                <div class="w-12"></div>
             </div>
 
             <form id="financeForm">
@@ -241,7 +262,6 @@
                     </div>
                 </div>
 
-                <!-- Compact Preview Area -->
                 <div class="bg-slate-900 p-6 rounded-[2rem] mb-6 shadow-lg border border-white/5">
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Net Profit</span>
@@ -253,7 +273,6 @@
                     </div>
                 </div>
 
-                <!-- Side-by-Side Buttons -->
                 <div class="flex gap-3 px-1">
                     <button type="button" onclick="closeEntryForm()" class="flex-1 bg-slate-100 text-slate-400 py-3.5 rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest action-btn">
                         Discard
@@ -266,11 +285,65 @@
         </div>
     </div>
 
+    <!-- Quick Preview Bottom Sheet (Tvarit Notav) -->
+    <div id="previewOverlay" class="fixed inset-0 z-[100] hidden flex items-end">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onclick="closePreview()"></div>
+        <div id="previewSheet" class="relative w-full bg-white rounded-t-[3rem] p-8 pb-10 shadow-2xl transition-transform duration-500 transform translate-y-full">
+            <div class="w-10 h-1 bg-slate-100 rounded-full mx-auto mb-8"></div>
+            
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <div>
+                        <h3 id="pvNote" class="text-lg font-black text-slate-800 tracking-tight">Service Name</h3>
+                        <p id="pvDate" class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Date</p>
+                    </div>
+                </div>
+                <button onclick="closePreview()" class="w-10 h-10 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300"><i class="fas fa-times text-xs"></i></button>
+            </div>
+
+            <div class="bg-slate-50/50 rounded-[2rem] border border-slate-100 px-6 py-2 mb-8">
+                <div class="preview-stat-row">
+                    <span class="preview-stat-label">Income</span>
+                    <span id="pvInc" class="preview-stat-value text-emerald-600">Rs. 0.00</span>
+                </div>
+                <div class="preview-stat-row">
+                    <span class="preview-stat-label">Expense</span>
+                    <span id="pvExp" class="preview-stat-value text-rose-500">Rs. 0.00</span>
+                </div>
+                <div class="preview-stat-row">
+                    <span class="preview-stat-label">Savings</span>
+                    <span id="pvSav" class="preview-stat-value text-amber-500">Rs. 0.00</span>
+                </div>
+                <div class="preview-stat-row">
+                    <span class="preview-stat-label">Net Profit</span>
+                    <span id="pvNet" class="preview-stat-value text-indigo-600">Rs. 0.00</span>
+                </div>
+                <div class="preview-stat-row border-none">
+                    <span class="preview-stat-label">Cash in Hand</span>
+                    <span id="pvCash" class="preview-stat-value text-slate-900">Rs. 0.00</span>
+                </div>
+            </div>
+
+            <div class="flex gap-4 px-2">
+                <button id="pvDeleteBtn" class="flex-1 bg-rose-50 text-rose-500 py-4 rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest action-btn flex items-center justify-center gap-2">
+                    <i class="fas fa-trash-alt text-[9px]"></i> Delete
+                </button>
+                <button id="pvEditBtn" class="flex-[2] bg-slate-900 text-white py-4 rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest shadow-xl action-btn flex items-center justify-center gap-2">
+                    <i class="fas fa-edit text-[9px]"></i> Edit Record
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // Firebase Sanrachna
         const firebaseConfig = {
             apiKey: "AIzaSyAXUjPo_M4Ov6k32fDtH62mcqkLpfOXzj4",
             authDomain: "smartdocs-finance.firebaseapp.com",
@@ -292,7 +365,9 @@
             currentUser = user;
             if (user) {
                 const now = new Date();
-                document.getElementById('monthFilter').value = now.toISOString().slice(0, 7);
+                // Default category set logic (Siddha Category)
+                document.getElementById('categoryFilter').value = "All";
+                
                 document.getElementById('pdfStart').value = now.toISOString().slice(0, 10);
                 document.getElementById('pdfEnd').value = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().slice(0, 10);
                 syncData();
@@ -301,6 +376,7 @@
             }
         });
 
+        // Mahiti Adhyayavat kara
         function syncData() {
             const dataRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'finance_data');
             onSnapshot(dataRef, (snap) => {
@@ -310,15 +386,19 @@
             }, (err) => console.error("Snapshot Error:", err));
         }
 
-        // Master display function that updates both tabs
+        // Dashboard Pradarshana (Dashboard display logic)
         window.updateDashboardDisplay = () => {
-            const filterMonth = document.getElementById('monthFilter').value;
+            const filterCat = document.getElementById('categoryFilter').value;
             const container = document.getElementById('records-list');
-            const filtered = allRecords.filter(r => r.date.startsWith(filterMonth));
             
-            // 1. Overview Calculations
+            // Filter by Category instead of Date (Shreni nusar gara)
+            const filtered = filterCat === "All" 
+                ? allRecords 
+                : allRecords.filter(r => r.note === filterCat);
+            
             let tIncome = 0, tExpense = 0, tSavings = 0;
             
+            // All-time totals for the selected category or everything
             filtered.forEach(rec => {
                 tIncome += parseFloat(rec.income || 0);
                 tExpense += parseFloat(rec.expense || 0);
@@ -334,16 +414,17 @@
             document.getElementById('summary-net').innerText = `Net: Rs. ${netProfit.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
             document.getElementById('summary-cash').innerText = `Rs. ${handBalance.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
 
-            // 2. Render Record Cards
             if (filtered.length === 0) {
-                container.innerHTML = `<div class="bg-white rounded-[2.5rem] p-20 text-center border border-slate-50"><p class="text-slate-300 font-bold text-[10px] uppercase tracking-widest">No activity</p></div>`;
+                container.innerHTML = `<div class="bg-white rounded-[2.5rem] p-20 text-center border border-slate-50">
+                    <p class="text-slate-300 font-bold text-[10px] uppercase tracking-widest">No activity for this category</p>
+                </div>`;
             } else {
                 container.innerHTML = filtered.map(rec => {
                     const inc = parseFloat(rec.income || 0);
                     const exp = parseFloat(rec.expense || 0);
                     const net = inc - exp;
                     return `
-                        <div class="bg-white p-6 rounded-[2.5rem] shadow-sm flex items-center justify-between border border-slate-50 action-btn" onclick="editEntry('${rec.id}')">
+                        <div class="bg-white p-6 rounded-[2.5rem] shadow-sm flex items-center justify-between border border-slate-50 action-btn" onclick="showPreview('${rec.id}')">
                             <div class="flex items-center gap-5">
                                 <div class="w-14 h-14 ${net >= 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'} rounded-[1.8rem] flex items-center justify-center text-lg shadow-inner">
                                     <i class="fas ${net >= 0 ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
@@ -361,8 +442,6 @@
                     `;
                 }).join('');
             }
-
-            // 3. Render History Tab
             renderHistory();
         };
 
@@ -387,7 +466,7 @@
             container.innerHTML = allRecords.map(rec => {
                 const net = (rec.income || 0) - (rec.expense || 0);
                 return `
-                    <div class="bg-white p-6 rounded-[2.5rem] shadow-sm flex items-center justify-between border border-slate-100">
+                    <div class="bg-white p-6 rounded-[2.5rem] shadow-sm flex items-center justify-between border border-slate-100 action-btn" onclick="showPreview('${rec.id}')">
                         <div class="flex items-center gap-5">
                             <div class="w-14 h-14 bg-slate-50 text-slate-400 rounded-[1.5rem] flex items-center justify-center text-lg">
                                 <i class="fas fa-history"></i>
@@ -397,13 +476,43 @@
                                 <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mt-1">${rec.date}</p>
                             </div>
                         </div>
-                        <div class="flex flex-col gap-2">
-                            <button onclick="editEntry('${rec.id}')" class="text-indigo-400 p-2"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteEntry('${rec.id}')" class="text-rose-300 p-2"><i class="fas fa-trash-alt"></i></button>
+                        <div class="text-right">
+                             <p class="font-black text-slate-900 text-sm italic">Rs. ${net.toLocaleString()}</p>
+                             <p class="text-[8px] text-slate-300 font-bold uppercase mt-1">Tap for details</p>
                         </div>
                     </div>
                 `;
             }).join('');
+        };
+
+        // --- PREVIEW SYSTEM ---
+        window.showPreview = (id) => {
+            const r = allRecords.find(x => x.id === id);
+            if(!r) return;
+            const inc = parseFloat(r.income || 0);
+            const exp = parseFloat(r.expense || 0);
+            const sav = parseFloat(r.savings || 0);
+            const net = inc - exp;
+            const cash = inc - exp - sav;
+
+            document.getElementById('pvNote').innerText = r.note;
+            document.getElementById('pvDate').innerText = r.date;
+            document.getElementById('pvInc').innerText = `Rs. ${inc.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+            document.getElementById('pvExp').innerText = `Rs. ${exp.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+            document.getElementById('pvSav').innerText = `Rs. ${sav.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+            document.getElementById('pvNet').innerText = `Rs. ${net.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+            document.getElementById('pvCash').innerText = `Rs. ${cash.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+
+            document.getElementById('pvEditBtn').onclick = () => { closePreview(); editEntry(id); };
+            document.getElementById('pvDeleteBtn').onclick = () => { closePreview(); deleteEntry(id); };
+
+            document.getElementById('previewOverlay').classList.remove('hidden');
+            setTimeout(() => document.getElementById('previewSheet').classList.remove('translate-y-full'), 50);
+        };
+
+        window.closePreview = () => {
+            document.getElementById('previewSheet').classList.add('translate-y-full');
+            setTimeout(() => document.getElementById('previewOverlay').classList.add('hidden'), 400);
         };
 
         window.openEntryForm = () => {
@@ -458,6 +567,7 @@
 
         window.editEntry = (id) => {
             const r = allRecords.find(x => x.id === id);
+            if(!r) return;
             document.getElementById('editId').value = r.id;
             document.getElementById('inDate').value = r.date;
             document.getElementById('inInc').value = r.income;
