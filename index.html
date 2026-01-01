@@ -102,8 +102,27 @@
             box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.5);
         }
 
-        /* Inputs */
-        input[type="month"], input[type="date"], select {
+        /* Fixed Mobile Date Input */
+        input[type="date"], input[type="month"] {
+            min-height: 44px; /* Essential for mobile touch */
+            padding: 8px 12px;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.02);
+            -webkit-appearance: none;
+            display: block;
+            width: 100%;
+            border: none;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .dark-mode input[type="date"], .dark-mode input[type="month"] {
+            background: rgba(255,255,255,0.05);
+        }
+
+        select {
             border: none;
             background: transparent;
             font-weight: 800;
@@ -134,6 +153,11 @@
         #formSheet, #previewSheet {
             background: var(--bg-card);
             color: var(--text-main);
+        }
+
+        .report-input-wrapper {
+            position: relative;
+            width: 100%;
         }
     </style>
 </head>
@@ -193,11 +217,10 @@
             <div class="mb-6 px-2">
                 <div class="flex justify-between items-end mb-4">
                     <h3 class="font-black text-indigo-600 text-lg tracking-tight">Activity Ledger</h3>
-                    <div class="flex flex-col items-end">
+                    <div class="flex flex-col items-end w-32">
                         <span class="text-[8px] font-black text-slate-400 uppercase mb-1">Filter Month</span>
-                        <div class="bg-custom-card px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm flex items-center">
-                            <input type="month" id="monthFilter" onchange="loadRecords()">
-                            <i class="fas fa-calendar-day text-indigo-500 text-[10px] ml-1"></i>
+                        <div class="bg-custom-card rounded-xl border border-slate-200 shadow-sm flex items-center overflow-hidden">
+                            <input type="month" id="monthFilter" onchange="loadRecords()" style="font-size: 10px; min-height: 38px;">
                         </div>
                     </div>
                 </div>
@@ -240,14 +263,18 @@
                     <div><h4 class="text-xs font-black text-indigo-600 uppercase tracking-tight">Business Reports</h4><p class="text-[8px] font-bold text-slate-400 uppercase">Generate financial statements</p></div>
                 </div>
                 
-                <div class="space-y-4 mb-8">
-                    <div class="bg-slate-500/5 p-5 rounded-2xl border border-slate-500/10">
-                        <label class="text-[9px] font-black text-indigo-500 uppercase block mb-1 ml-1">Start Date</label>
-                        <input type="date" id="pdfStart" class="w-full bg-transparent border-none text-sm font-bold outline-none">
+                <div class="space-y-6 mb-8">
+                    <div class="bg-slate-500/5 p-4 rounded-2xl border border-slate-500/10">
+                        <label class="text-[10px] font-black text-indigo-500 uppercase block mb-2 ml-1">Start Date</label>
+                        <div class="report-input-wrapper">
+                            <input type="date" id="pdfStart" class="w-full outline-none">
+                        </div>
                     </div>
-                    <div class="bg-slate-500/5 p-5 rounded-2xl border border-slate-500/10">
-                        <label class="text-[9px] font-black text-indigo-500 uppercase block mb-1 ml-1">End Date</label>
-                        <input type="date" id="pdfEnd" class="w-full bg-transparent border-none text-sm font-bold outline-none">
+                    <div class="bg-slate-500/5 p-4 rounded-2xl border border-slate-500/10">
+                        <label class="text-[10px] font-black text-indigo-500 uppercase block mb-2 ml-1">End Date</label>
+                        <div class="report-input-wrapper">
+                            <input type="date" id="pdfEnd" class="w-full outline-none">
+                        </div>
                     </div>
                 </div>
                 
@@ -288,7 +315,7 @@
             <form id="financeForm" class="space-y-6">
                 <input type="hidden" id="editId">
                 <div class="bg-slate-500/5 rounded-[2.5rem] border border-slate-500/10 overflow-hidden divide-y divide-slate-500/10">
-                    <div class="flex items-center p-6"><label class="w-24 text-[10px] font-black text-slate-400 uppercase tracking-widest">Date</label><input type="date" id="inDate" required class="flex-1 bg-transparent border-none text-sm font-bold text-right outline-none"></div>
+                    <div class="flex items-center p-6"><label class="w-24 text-[10px] font-black text-slate-400 uppercase tracking-widest">Date</label><input type="date" id="inDate" required class="flex-1 bg-transparent border-none text-right"></div>
                     <div class="flex items-center p-6">
                         <label class="w-24 text-[10px] font-black text-slate-400 uppercase tracking-widest">Service</label>
                         <select id="inNote" required class="flex-1 bg-transparent border-none text-sm font-bold text-right outline-none appearance-none">
