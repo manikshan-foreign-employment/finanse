@@ -12,10 +12,32 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         
+        /* Theme Variables */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --border-color: #f1f5f9;
+            --nav-bg: rgba(255, 255, 255, 0.98);
+            --icon-color: #4f46e5;
+        }
+
+        .dark-mode {
+            --bg-body: #020617;
+            --bg-card: #0f172a;
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --border-color: #1e293b;
+            --nav-bg: rgba(15, 23, 42, 0.98);
+            --icon-color: #818cf8;
+        }
+
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #f8fafc;
-            color: #0f172a;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            transition: background-color 0.3s, color 0.3s;
             -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
         }
@@ -25,17 +47,22 @@
         }
 
         .stat-card-main {
-            background: #ffffff;
+            background: var(--bg-card);
             border-radius: 2.5rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
-            border: 1px solid #ffffff;
+            border: 1px solid var(--border-color);
         }
 
-        /* Bottom Nav - Extra Large for Mobile */
+        .bg-custom-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Navigation Bar */
         .bottom-nav {
-            background: rgba(255, 255, 255, 0.98);
+            background: var(--nav-bg);
             backdrop-filter: blur(20px);
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid var(--border-color);
             height: 95px;
         }
 
@@ -46,25 +73,26 @@
             justify-content: center;
             gap: 6px;
             width: 110px;
+            color: var(--text-sub);
         }
 
         .nav-btn i { font-size: 26px; }
-        .nav-btn span { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
+        .nav-btn span { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
 
         .active-nav { color: #4f46e5; }
-        .inactive-nav { color: #94a3b8; }
+        .dark-mode .active-nav { color: #818cf8; }
 
-        /* Custom Table */
+        /* Table Styles */
         .ledger-container {
-            background: white;
+            background: var(--bg-card);
             border-radius: 2rem;
             overflow: hidden;
-            border: 1px solid #f1f5f9;
+            border: 1px solid var(--border-color);
         }
 
         table { width: 100%; border-collapse: collapse; }
-        th { background: #f8fafc; padding: 16px; font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; text-align: left; }
-        td { padding: 18px 16px; border-bottom: 1px solid #f1f5f9; font-size: 13px; font-weight: 700; color: #1e293b; }
+        th { background: rgba(0,0,0,0.02); padding: 16px; font-size: 10px; font-weight: 800; color: var(--text-sub); text-transform: uppercase; text-align: left; }
+        td { padding: 18px 16px; border-bottom: 1px solid var(--border-color); font-size: 13px; font-weight: 700; color: var(--text-main); }
 
         .btn-touch { transition: transform 0.1s; cursor: pointer; }
         .btn-touch:active { transform: scale(0.9); }
@@ -74,88 +102,114 @@
             box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.5);
         }
 
-        /* Input Styles */
-        input[type="month"] {
+        /* Inputs */
+        input[type="month"], input[type="date"], select {
             border: none;
             background: transparent;
             font-weight: 800;
-            font-size: 11px;
-            color: #4f46e5;
+            font-size: 12px;
+            color: var(--text-main);
             outline: none;
+            width: 100%;
         }
 
         .animate-view { animation: slideUp 0.4s ease-out forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .theme-toggle-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ffffff;
+        }
+
+        /* Modal/Sheet Dark Mode */
+        #formSheet, #previewSheet {
+            background: var(--bg-card);
+            color: var(--text-main);
+        }
     </style>
 </head>
 <body class="pb-36">
 
-    <!-- Brand Header -->
+    <!-- Header Section -->
     <header class="premium-gradient text-white px-8 pt-12 pb-24 rounded-b-[4rem] shadow-2xl relative">
-        <div class="max-w-md mx-auto text-center relative z-10">
-            <h1 class="text-2xl font-black tracking-widest uppercase">SmartDocs SL</h1>
-            <p class="text-indigo-300 text-[10px] font-bold uppercase tracking-[0.4em] mt-1">Charuka Dilshan - Business Suite</p>
+        <div class="max-w-md mx-auto relative z-10 flex justify-between items-center">
+            <div class="text-left">
+                <h1 class="text-2xl font-black tracking-widest uppercase">SmartDocs SL</h1>
+                <p class="text-indigo-300 text-[10px] font-bold uppercase tracking-[0.4em] mt-1">Charuka Dilshan - Business Suite</p>
+            </div>
+            <button onclick="toggleTheme()" class="theme-toggle-btn btn-touch">
+                <i id="theme-icon" class="fas fa-moon"></i>
+            </button>
         </div>
     </header>
 
     <main class="max-w-md mx-auto px-6 -mt-16 relative z-20">
         
-        <!-- Dashboard Content -->
+        <!-- Dashboard View -->
         <div id="view-home" class="animate-view">
             
-            <!-- Cash In Hand Hero (Primary Focus) -->
+            <!-- Cash In Hand Hero -->
             <div class="stat-card-main p-8 mb-6 text-center">
                 <p class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Cash in Hand</p>
                 <h2 id="summary-cash" class="text-4xl font-black text-indigo-600 tracking-tighter italic">Rs. 0.00</h2>
-                <div class="mt-6 pt-5 border-t border-slate-50 flex justify-center items-center gap-3">
+                <div class="mt-6 pt-5 border-t border-slate-500/10 flex justify-center items-center gap-3">
                     <span class="text-[10px] font-black text-slate-400 uppercase">Total Net Profit:</span>
-                    <span id="summary-net" class="text-sm font-black text-slate-900">Rs. 0.00</span>
+                    <span id="summary-net" class="text-sm font-black text-indigo-600">Rs. 0.00</span>
                 </div>
             </div>
 
-            <!-- Professional Summary Stats -->
+            <!-- Financial Statistics -->
             <div class="grid grid-cols-1 gap-3 mb-8">
-                <div class="bg-white p-5 rounded-[2rem] border border-slate-100 flex items-center justify-between shadow-sm">
+                <div class="bg-custom-card p-5 rounded-[2rem] flex items-center justify-between shadow-sm">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center"><i class="fas fa-plus-circle text-lg"></i></div>
-                        <div><p class="text-[9px] font-black text-slate-400 uppercase">Income</p><p id="summary-income" class="text-xl font-black text-emerald-600">Rs. 0</p></div>
+                        <div class="w-12 h-12 bg-emerald-500/10 text-emerald-600 rounded-2xl flex items-center justify-center"><i class="fas fa-plus-circle text-lg"></i></div>
+                        <div><p class="text-[9px] font-black text-slate-400 uppercase">Total Income</p><p id="summary-income" class="text-xl font-black text-emerald-600">Rs. 0</p></div>
                     </div>
                 </div>
-                <div class="bg-white p-5 rounded-[2rem] border border-slate-100 flex items-center justify-between shadow-sm">
+                <div class="bg-custom-card p-5 rounded-[2rem] flex items-center justify-between shadow-sm">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-rose-50 text-rose-500 rounded-2xl flex items-center justify-center"><i class="fas fa-minus-circle text-lg"></i></div>
-                        <div><p class="text-[9px] font-black text-slate-400 uppercase">Expense</p><p id="summary-expense" class="text-xl font-black text-rose-500">Rs. 0</p></div>
+                        <div class="w-12 h-12 bg-rose-500/10 text-rose-500 rounded-2xl flex items-center justify-center"><i class="fas fa-minus-circle text-lg"></i></div>
+                        <div><p class="text-[9px] font-black text-slate-400 uppercase">Total Expense</p><p id="summary-expense" class="text-xl font-black text-rose-500">Rs. 0</p></div>
                     </div>
                 </div>
-                <div class="bg-white p-5 rounded-[2rem] border border-slate-100 flex items-center justify-between shadow-sm">
+                <div class="bg-custom-card p-5 rounded-[2rem] flex items-center justify-between shadow-sm">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center"><i class="fas fa-piggy-bank text-lg"></i></div>
-                        <div><p class="text-[9px] font-black text-slate-400 uppercase">Saved</p><p id="summary-savings" class="text-xl font-black text-amber-500">Rs. 0</p></div>
+                        <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center"><i class="fas fa-piggy-bank text-lg"></i></div>
+                        <div><p class="text-[9px] font-black text-slate-400 uppercase">Total Savings</p><p id="summary-savings" class="text-xl font-black text-amber-500">Rs. 0</p></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Activity Ledger with Month Filter -->
+            <!-- Activity Ledger -->
             <div class="mb-6 px-2">
                 <div class="flex justify-between items-end mb-4">
-                    <h3 class="font-black text-slate-800 text-lg tracking-tight">Activity Ledger</h3>
+                    <h3 class="font-black text-indigo-600 text-lg tracking-tight">Activity Ledger</h3>
                     <div class="flex flex-col items-end">
                         <span class="text-[8px] font-black text-slate-400 uppercase mb-1">Filter Month</span>
-                        <div class="bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm flex items-center">
+                        <div class="bg-custom-card px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm flex items-center">
                             <input type="month" id="monthFilter" onchange="loadRecords()">
                             <i class="fas fa-calendar-day text-indigo-500 text-[10px] ml-1"></i>
                         </div>
                     </div>
                 </div>
                 
-                <div class="bg-white px-4 py-3 rounded-2xl border border-slate-100 shadow-sm mb-4">
-                    <select id="categoryFilter" class="w-full bg-transparent text-[11px] font-black text-slate-600 outline-none appearance-none" onchange="loadRecords()">
+                <div class="bg-custom-card px-4 py-3 rounded-2xl border border-slate-100 shadow-sm mb-4">
+                    <select id="categoryFilter" class="w-full bg-transparent text-[11px] font-black outline-none appearance-none" onchange="loadRecords()">
                         <option value="All">All Categories</option>
                         <option value="Assignment work">Assignment Work</option>
-                        <option value="CV Document">CV Creation</option>
+                        <option value="CV Document">CV Design</option>
                         <option value="System">System Dev</option>
                         <option value="Letter">Letter Writing</option>
-                        <option value="Other">Other Service</option>
+                        <option value="Other">Other Services</option>
                     </select>
                 </div>
             </div>
@@ -173,27 +227,27 @@
                     <tbody id="ledger-body"></tbody>
                 </table>
                 <div id="ledger-empty" class="hidden p-20 text-center">
-                    <p class="text-slate-300 font-black text-[10px] uppercase tracking-widest">No activity found</p>
+                    <p class="text-slate-300 font-black text-[10px] uppercase tracking-widest">No activity found yet</p>
                 </div>
             </div>
         </div>
 
         <!-- Reports View -->
         <div id="view-history" class="hidden animate-view">
-            <div class="bg-white rounded-[2.5rem] p-8 shadow-xl border border-slate-100 mb-8">
+            <div class="bg-custom-card rounded-[2.5rem] p-8 shadow-xl mb-8">
                 <div class="flex items-center gap-3 mb-8">
                     <div class="w-12 h-12 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-lg"><i class="fas fa-file-pdf text-xl"></i></div>
-                    <div><h4 class="text-xs font-black text-slate-800 uppercase tracking-tight">Report Generator</h4><p class="text-[8px] font-bold text-slate-400">DOWNLOAD PDF STATEMENT</p></div>
+                    <div><h4 class="text-xs font-black text-indigo-600 uppercase tracking-tight">Business Reports</h4><p class="text-[8px] font-bold text-slate-400 uppercase">Generate financial statements</p></div>
                 </div>
                 
                 <div class="space-y-4 mb-8">
-                    <div class="bg-slate-50 p-4 rounded-2xl">
-                        <label class="text-[9px] font-black text-slate-400 uppercase block mb-1 ml-1">From Date</label>
-                        <input type="date" id="pdfStart" class="w-full bg-transparent border-none text-sm font-bold text-slate-700 outline-none">
+                    <div class="bg-slate-500/5 p-5 rounded-2xl border border-slate-500/10">
+                        <label class="text-[9px] font-black text-indigo-500 uppercase block mb-1 ml-1">Start Date</label>
+                        <input type="date" id="pdfStart" class="w-full bg-transparent border-none text-sm font-bold outline-none">
                     </div>
-                    <div class="bg-slate-50 p-4 rounded-2xl">
-                        <label class="text-[9px] font-black text-slate-400 uppercase block mb-1 ml-1">To Date</label>
-                        <input type="date" id="pdfEnd" class="w-full bg-transparent border-none text-sm font-bold text-slate-700 outline-none">
+                    <div class="bg-slate-500/5 p-5 rounded-2xl border border-slate-500/10">
+                        <label class="text-[9px] font-black text-indigo-500 uppercase block mb-1 ml-1">End Date</label>
+                        <input type="date" id="pdfEnd" class="w-full bg-transparent border-none text-sm font-bold outline-none">
                     </div>
                 </div>
                 
@@ -205,7 +259,7 @@
         </div>
     </main>
 
-    <!-- Fixed Navigation -->
+    <!-- Navigation Bar -->
     <nav class="fixed bottom-0 left-0 right-0 bottom-nav flex items-center justify-around px-8 z-50 rounded-t-[3.5rem] shadow-2xl">
         <button onclick="switchView('home')" id="nav-home" class="nav-btn active-nav btn-touch">
             <i class="fas fa-home-alt"></i>
@@ -224,36 +278,36 @@
         </button>
     </nav>
 
-    <!-- Transaction Form Sheet -->
+    <!-- Transaction Form -->
     <div id="formOverlay" class="fixed inset-0 z-[100] hidden flex items-end">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onclick="closeEntryForm()"></div>
-        <div id="formSheet" class="relative w-full bg-white rounded-t-[3.5rem] p-8 pb-12 shadow-2xl transition-transform duration-500 transform translate-y-full max-h-[90vh] overflow-y-auto">
+        <div id="formSheet" class="relative w-full rounded-t-[3.5rem] p-8 pb-12 shadow-2xl transition-transform duration-500 transform translate-y-full max-h-[90vh] overflow-y-auto">
             <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-10"></div>
-            <h3 id="formTitle" class="text-center text-xl font-black text-slate-800 mb-8 tracking-tight">Record Transaction</h3>
+            <h3 id="formTitle" class="text-center text-xl font-black mb-8 tracking-tight">Record Transaction</h3>
 
             <form id="financeForm" class="space-y-6">
                 <input type="hidden" id="editId">
-                <div class="bg-slate-50 rounded-[2.5rem] border border-slate-100 overflow-hidden divide-y divide-slate-100">
-                    <div class="flex items-center p-6"><label class="w-24 text-[10px] font-black text-slate-400 uppercase tracking-widest">Date</label><input type="date" id="inDate" required class="flex-1 bg-transparent border-none text-sm font-bold text-slate-800 text-right outline-none"></div>
+                <div class="bg-slate-500/5 rounded-[2.5rem] border border-slate-500/10 overflow-hidden divide-y divide-slate-500/10">
+                    <div class="flex items-center p-6"><label class="w-24 text-[10px] font-black text-slate-400 uppercase tracking-widest">Date</label><input type="date" id="inDate" required class="flex-1 bg-transparent border-none text-sm font-bold text-right outline-none"></div>
                     <div class="flex items-center p-6">
                         <label class="w-24 text-[10px] font-black text-slate-400 uppercase tracking-widest">Service</label>
-                        <select id="inNote" required class="flex-1 bg-transparent border-none text-sm font-bold text-slate-800 text-right outline-none appearance-none">
-                            <option value="Assignment work">Assignment Work</option><option value="CV Document">CV Creation</option><option value="System">System Dev</option><option value="Letter">Letter Writing</option><option value="Other">Other Service</option>
+                        <select id="inNote" required class="flex-1 bg-transparent border-none text-sm font-bold text-right outline-none appearance-none">
+                            <option value="Assignment work">Assignment</option><option value="CV Document">CV Design</option><option value="System">System Dev</option><option value="Letter">Letter Writing</option><option value="Other">Other Services</option>
                         </select>
                     </div>
                     <div class="flex items-center p-6"><label class="w-24 text-[10px] font-black text-emerald-600 uppercase tracking-widest">Income</label><input type="number" id="inInc" step="0.01" inputmode="decimal" placeholder="0.00" class="flex-1 bg-transparent border-none text-sm font-black text-emerald-600 text-right outline-none" oninput="calculateLiveBalance()"></div>
                     <div class="flex items-center p-6"><label class="w-24 text-[10px] font-black text-rose-500 uppercase tracking-widest">Expense</label><input type="number" id="inExp" step="0.01" inputmode="decimal" placeholder="0.00" class="flex-1 bg-transparent border-none text-sm font-black text-rose-500 text-right outline-none" oninput="calculateLiveBalance()"></div>
-                    <div class="flex items-center p-6"><label class="w-24 text-[10px] font-black text-amber-500 uppercase tracking-widest">Saving</label><input type="number" id="inSav" step="0.01" inputmode="decimal" placeholder="0.00" class="flex-1 bg-transparent border-none text-sm font-black text-amber-500 text-right outline-none" oninput="calculateLiveBalance()"></div>
+                    <div class="flex items-center p-6"><label class="w-24 text-[10px] font-black text-amber-500 uppercase tracking-widest">Savings</label><input type="number" id="inSav" step="0.01" inputmode="decimal" placeholder="0.00" class="flex-1 bg-transparent border-none text-sm font-black text-amber-500 text-right outline-none" oninput="calculateLiveBalance()"></div>
                 </div>
 
                 <div class="bg-indigo-600 p-8 rounded-[2.5rem] shadow-xl text-center">
                     <p class="text-[10px] font-black text-indigo-200 uppercase tracking-widest mb-1">Live Profit Prediction</p>
                     <p id="live-net" class="text-3xl font-black text-white italic">Rs. 0.00</p>
-                    <p id="live-cash" class="text-[10px] font-bold text-indigo-300 uppercase mt-2">To Hand Cash: Rs. 0.00</p>
+                    <p id="live-cash" class="text-[10px] font-bold text-indigo-300 uppercase mt-2">Cash in Hand: Rs. 0.00</p>
                 </div>
 
                 <div class="flex gap-4">
-                    <button type="button" onclick="closeEntryForm()" class="flex-1 bg-slate-100 text-slate-400 py-5 rounded-2xl font-black text-xs uppercase btn-touch">Cancel</button>
+                    <button type="button" onclick="closeEntryForm()" class="flex-1 bg-slate-500/10 text-slate-400 py-5 rounded-2xl font-black text-xs uppercase btn-touch">Cancel</button>
                     <button type="submit" id="saveBtn" class="flex-1 bg-indigo-600 text-white py-5 rounded-2xl font-black text-xs uppercase shadow-xl btn-touch">Save Record</button>
                 </div>
             </form>
@@ -263,25 +317,26 @@
     <!-- Preview Modal -->
     <div id="previewOverlay" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-6">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onclick="closePreview()"></div>
-        <div id="previewSheet" class="relative w-full max-w-sm bg-white rounded-[3.5rem] p-8 shadow-2xl transition-all scale-90 opacity-0">
+        <div id="previewSheet" class="relative w-full max-w-sm rounded-[3.5rem] p-8 shadow-2xl transition-all scale-90 opacity-0">
             <div class="flex items-center gap-4 mb-8">
-                <div id="pvIcon" class="w-16 h-16 rounded-3xl flex items-center justify-center text-2xl border border-slate-100"><i class="fas fa-file-alt"></i></div>
-                <div><h3 id="pvNote" class="text-xl font-black text-slate-800 tracking-tight">Service</h3><p id="pvDate" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Date</p></div>
+                <div id="pvIcon" class="w-16 h-16 rounded-3xl flex items-center justify-center text-2xl border border-slate-500/10"><i class="fas fa-file-alt"></i></div>
+                <div><h3 id="pvNote" class="text-xl font-black tracking-tight">Service</h3><p id="pvDate" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Date</p></div>
             </div>
-            <div class="bg-slate-50 rounded-[2.5rem] p-6 space-y-4 border border-slate-100 mb-8">
-                <div class="flex justify-between items-center"><span class="text-[10px] font-black text-slate-400 uppercase">Gross</span><span id="pvInc" class="text-emerald-600 font-black">Rs. 0.00</span></div>
-                <div class="flex justify-between items-center"><span class="text-[10px] font-black text-slate-400 uppercase">Cost</span><span id="pvExp" class="text-rose-500 font-black">Rs. 0.00</span></div>
-                <div class="flex justify-between items-center"><span class="text-[10px] font-black text-slate-400 uppercase">Saved</span><span id="pvSav" class="text-amber-500 font-black">Rs. 0.00</span></div>
-                <div class="pt-4 border-t border-slate-200 flex justify-between items-center"><span class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Net Profit</span><span id="pvNet" class="text-xl font-black text-indigo-600 italic">Rs. 0.00</span></div>
+            <div class="bg-slate-500/5 rounded-[2.5rem] p-6 space-y-4 border border-slate-500/10 mb-8">
+                <div class="flex justify-between items-center"><span class="text-[10px] font-black text-slate-400 uppercase">Gross Income</span><span id="pvInc" class="text-emerald-600 font-black">Rs. 0.00</span></div>
+                <div class="flex justify-between items-center"><span class="text-[10px] font-black text-slate-400 uppercase">Operational Expense</span><span id="pvExp" class="text-rose-500 font-black">Rs. 0.00</span></div>
+                <div class="flex justify-between items-center"><span class="text-[10px] font-black text-slate-400 uppercase">Stored Savings</span><span id="pvSav" class="text-amber-500 font-black">Rs. 0.00</span></div>
+                <div class="pt-4 border-t border-slate-500/10 flex justify-between items-center"><span class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Net Profit</span><span id="pvNet" class="text-xl font-black text-indigo-600 italic">Rs. 0.00</span></div>
             </div>
             <div class="flex flex-col gap-3">
                 <button id="pvEditBtn" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-xs uppercase btn-touch"><i class="fas fa-edit mr-2"></i>Modify Entry</button>
-                <button onclick="closePreview()" class="w-full bg-slate-100 text-slate-400 py-4 rounded-2xl font-black text-[10px] uppercase">Close</button>
+                <button onclick="closePreview()" class="w-full bg-slate-500/10 text-slate-400 py-4 rounded-2xl font-black text-[10px] uppercase">Close</button>
             </div>
         </div>
     </div>
 
     <script type="module">
+        /* Firebase Imports */
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -303,11 +358,13 @@
         let currentUser = null;
         let allRecords = [];
 
+        /* Authentication Listener */
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             if (user) syncData(); else signInAnonymously(auth);
         });
 
+        /* Sync Data from Firestore */
         function syncData() {
             const dataRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'finance_data');
             onSnapshot(dataRef, (snap) => {
@@ -317,13 +374,24 @@
             });
         }
 
+        /* Theme Toggle Function */
+        window.toggleTheme = () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.getElementById('theme-icon');
+            if(document.body.classList.contains('dark-mode')) {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
+        };
+
+        /* Update Dashboard UI */
         window.updateDashboardDisplay = () => {
             const cat = document.getElementById('categoryFilter').value;
             const monthVal = document.getElementById('monthFilter').value;
             const tableBody = document.getElementById('ledger-body');
             const emptyState = document.getElementById('ledger-empty');
             
-            // Filtering Logic
             let filtered = allRecords;
             if (cat !== "All") filtered = filtered.filter(r => r.note === cat);
             if (monthVal) filtered = filtered.filter(r => r.date.startsWith(monthVal));
@@ -350,8 +418,8 @@
                     const net = (rec.income || 0) - (rec.expense || 0);
                     return `
                         <tr onclick="showPreview('${rec.id}')">
-                            <td class="text-left font-black text-slate-700">${rec.note}</td>
-                            <td class="text-left text-[9px] text-slate-400 font-bold uppercase">${rec.date.split('-').slice(1).join('/')}</td>
+                            <td class="text-left font-black">${rec.note}</td>
+                            <td class="text-left text-[9px] font-bold uppercase">${rec.date.split('-').slice(1).join('/')}</td>
                             <td class="text-left font-black italic ${net >= 0 ? 'text-emerald-600' : 'text-rose-500'}">Rs. ${net.toLocaleString()}</td>
                             <td class="text-center" onclick="event.stopPropagation()">
                                 <button onclick="deleteEntry('${rec.id}')" class="text-rose-300 active:text-rose-600 p-2"><i class="fas fa-trash-can"></i></button>
@@ -363,6 +431,7 @@
             renderHistoryList();
         };
 
+        /* Switch Navigation View */
         window.switchView = (view) => {
             const isHome = view === 'home';
             document.getElementById('view-home').classList.toggle('hidden', !isHome);
@@ -371,19 +440,21 @@
             document.getElementById('nav-history').className = `nav-btn btn-touch ${!isHome ? 'active-nav' : 'inactive-nav'}`;
         };
 
+        /* Render All Records History */
         window.renderHistoryList = () => {
             const container = document.getElementById('history-container');
             container.innerHTML = allRecords.map(rec => `
-                <div class="bg-white p-5 rounded-[2rem] flex items-center justify-between border border-slate-100" onclick="showPreview('${rec.id}')">
+                <div class="bg-custom-card p-5 rounded-[2rem] flex items-center justify-between border border-slate-500/10" onclick="showPreview('${rec.id}')">
                     <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center text-xs"><i class="fas fa-history"></i></div>
-                        <div><h4 class="font-black text-slate-800 text-xs">${rec.note}</h4><p class="text-[8px] text-slate-400 font-bold uppercase">${rec.date}</p></div>
+                        <div class="w-10 h-10 bg-slate-500/5 text-slate-400 rounded-xl flex items-center justify-center text-xs"><i class="fas fa-history"></i></div>
+                        <div><h4 class="font-black text-xs">${rec.note}</h4><p class="text-[8px] font-bold uppercase">${rec.date}</p></div>
                     </div>
-                    <p class="font-black text-slate-600 text-xs">Rs. ${(rec.income - rec.expense).toLocaleString()}</p>
+                    <p class="font-black text-slate-400 text-xs">Rs. ${(rec.income - rec.expense).toLocaleString()}</p>
                 </div>
             `).join('');
         };
 
+        /* Show Record Preview */
         window.showPreview = (id) => {
             const r = allRecords.find(x => x.id === id);
             const net = r.income - r.expense;
@@ -394,7 +465,7 @@
             document.getElementById('pvSav').innerText = `Rs. ${r.savings.toLocaleString()}`;
             document.getElementById('pvNet').innerText = `Rs. ${net.toLocaleString()}`;
             const iconDiv = document.getElementById('pvIcon');
-            iconDiv.className = `w-16 h-16 ${net >= 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-500'} rounded-3xl flex items-center justify-center text-2xl border border-slate-100`;
+            iconDiv.className = `w-16 h-16 ${net >= 0 ? 'bg-emerald-500/10 text-emerald-600' : 'bg-rose-500/10 text-rose-500'} rounded-3xl flex items-center justify-center text-2xl border border-slate-500/10`;
             document.getElementById('pvEditBtn').onclick = () => { closePreview(); editEntry(id); };
             document.getElementById('previewOverlay').classList.remove('hidden');
             setTimeout(() => { document.getElementById('previewSheet').classList.remove('scale-90', 'opacity-0'); }, 50);
@@ -405,6 +476,7 @@
             setTimeout(() => document.getElementById('previewOverlay').classList.add('hidden'), 300);
         };
 
+        /* Form Controls */
         window.openEntryForm = () => {
             document.getElementById('formOverlay').classList.remove('hidden');
             setTimeout(() => document.getElementById('formSheet').classList.remove('translate-y-full'), 50);
@@ -419,7 +491,7 @@
                 document.getElementById('editId').value = "";
                 document.getElementById('formTitle').innerText = "Record Transaction";
                 document.getElementById('live-net').innerText = "Rs. 0.00";
-                document.getElementById('live-cash').innerText = "To Hand Cash: Rs. 0.00";
+                document.getElementById('live-cash').innerText = "Cash in Hand: Rs. 0.00";
             }, 400);
         };
 
@@ -428,9 +500,10 @@
             const exp = parseFloat(document.getElementById('inExp').value) || 0;
             const sav = parseFloat(document.getElementById('inSav').value) || 0;
             document.getElementById('live-net').innerText = `Rs. ${(inc - exp).toLocaleString()}`;
-            document.getElementById('live-cash').innerText = `To Hand Cash: Rs. ${(inc - exp - sav).toLocaleString()}`;
+            document.getElementById('live-cash').innerText = `Cash in Hand: Rs. ${(inc - exp - sav).toLocaleString()}`;
         };
 
+        /* Save Record to Firestore */
         document.getElementById('financeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('editId').value;
@@ -448,6 +521,7 @@
             closeEntryForm();
         });
 
+        /* Edit Entry */
         window.editEntry = (id) => {
             const r = allRecords.find(x => x.id === id);
             document.getElementById('editId').value = r.id;
@@ -461,13 +535,14 @@
             openEntryForm();
         };
 
+        /* Delete Entry */
         window.deleteEntry = async (id) => {
-            if (confirm("Delete this business record?")) {
+            if (confirm("Are you sure you want to delete this record?")) {
                 await deleteDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'finance_data', id));
             }
         };
 
-        // FIXED PDF FUNCTION
+        /* Download PDF Report */
         window.downloadRangePDF = () => {
             try {
                 const { jsPDF } = window.jspdf;
@@ -475,7 +550,7 @@
                 const end = document.getElementById('pdfEnd').value;
                 
                 if (!start || !end) {
-                    alert("Please select both dates!");
+                    alert("Please select both start and end dates!");
                     return;
                 }
 
@@ -483,14 +558,12 @@
                     .sort((a,b) => new Date(a.date) - new Date(b.date));
 
                 if (filtered.length === 0) {
-                    alert("No data for these dates!");
+                    alert("No records found for the selected date range!");
                     return;
                 }
 
                 const doc = new jsPDF();
-                
-                // Styling the PDF
-                doc.setFillColor(30, 27, 75); // Dark Indigo
+                doc.setFillColor(30, 27, 75);
                 doc.rect(0, 0, 210, 40, 'F');
                 doc.setTextColor(255, 255, 255);
                 doc.setFontSize(22);
@@ -515,16 +588,15 @@
                     margin: { top: 50 }
                 });
 
-                doc.save(`SmartDocs_Statement_${start}_to_${end}.pdf`);
+                doc.save(`SmartDocs_Statement_${start}.pdf`);
             } catch (err) {
-                console.error("PDF Error: ", err);
-                alert("Failed to generate PDF. Check browser console.");
+                console.error("PDF Generation Error: ", err);
+                alert("Failed to generate PDF. Please try again.");
             }
         };
 
         window.loadRecords = () => updateDashboardDisplay();
         
-        // Expose functions to global window for HTML onclicks
         window.switchView = switchView;
         window.openEntryForm = openEntryForm;
         window.closeEntryForm = closeEntryForm;
@@ -532,6 +604,7 @@
         window.closePreview = closePreview;
         window.deleteEntry = deleteEntry;
         window.calculateLiveBalance = calculateLiveBalance;
+        window.toggleTheme = toggleTheme;
 
     </script>
 </body>
