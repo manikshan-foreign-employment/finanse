@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SmartDocs SL - Financial Suite</title>
+    <title>SmartDocs SL - Charuka Dilshan</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
@@ -17,7 +17,6 @@
             background-color: #f8fafc;
             color: #0f172a;
             -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
         }
 
         .premium-header {
@@ -26,98 +25,89 @@
 
         .luxury-card {
             background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+            box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.4);
+        }
+
+        .cash-card {
+            background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+            box-shadow: 0 15px 30px -5px rgba(15, 23, 42, 0.3);
         }
 
         .bottom-nav {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(20px);
             border-top: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .nav-item.active { color: #4f46e5; }
-
-        .action-btn:active { transform: scale(0.95); transition: 0.1s; }
-
-        /* Advanced Professional Form Grid */
-        .form-grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            padding: 4px;
-        }
-
-        .form-grid-cell {
-            background: #f8fafc;
-            padding: 1rem;
-            border-radius: 1.5rem;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .form-grid-cell:focus-within {
-            background: white;
-            border-color: #4f46e5;
-            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.1);
-        }
-
-        .cell-full { grid-column: span 2; }
-
-        .form-label {
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
+        .nav-item {
             color: #94a3b8;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: #4f46e5;
+        }
+
+        .action-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .action-btn:active { transform: scale(0.92); }
+
+        .entry-row {
             display: flex;
             align-items: center;
-            gap: 6px;
+            border-bottom: 1px solid #f1f5f9;
+            padding: 10px 16px;
         }
-
-        .form-input-pro {
-            font-size: 1.1rem;
+        .entry-label {
+            width: 90px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #94a3b8;
+            letter-spacing: 0.05em;
+        }
+        .entry-input {
+            flex: 1;
             font-weight: 700;
             color: #1e293b;
-            width: 100%;
-            outline: none;
             background: transparent;
-            min-height: 1.5rem;
+            border: none;
+            outline: none;
+            padding: 6px 8px;
+            font-size: 13px;
+            text-align: right;
         }
 
-        /* Mobile Date Picker Fix */
-        input[type="date"] {
-            position: relative;
-            display: block;
-            -webkit-appearance: listbox; /* Forces native picker on some browsers */
-        }
-
-        /* Custom appearance for selects to look professional on mobile */
-        select.form-input-pro {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0px center;
-            background-size: 1rem;
-            padding-right: 1.5rem;
-        }
-
-        /* Mobile Adjustments */
-        input[type="number"]::-webkit-inner-spin-button, 
-        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        
         .view-transition {
-            animation: fadeIn 0.4s ease-out;
+            animation: slideIn 0.4s ease-out;
         }
-        @keyframes fadeIn {
+        @keyframes slideIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        .preview-stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .preview-stat-label {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #64748b;
+        }
+        .preview-stat-value {
+            font-weight: 800;
+            color: #0f172a;
         }
     </style>
 </head>
 <body class="pb-32">
 
-    <!-- Header Section -->
+    <!-- Brand Header (Mukhya Mathala) -->
     <header class="premium-header text-white px-8 pt-12 pb-24 rounded-b-[3.5rem] shadow-2xl mb-6 relative">
         <div class="max-w-md mx-auto text-center relative z-10">
             <h1 class="text-2xl font-black tracking-[0.25em] uppercase leading-tight">SMART DOCS</h1>
@@ -130,203 +120,220 @@
 
     <main class="max-w-md mx-auto px-6 -mt-16 relative z-20">
         
-        <!-- Dashboard Summary -->
+        <!-- Overview Tab (Avalokana) -->
         <div id="view-home" class="view-transition">
-            <div class="bg-slate-900 rounded-[3rem] p-10 mb-6 border border-white/10 text-center shadow-2xl">
+            <!-- Available Cash in Hand Card (Rokh Balance Card) -->
+            <div class="cash-card rounded-[3rem] p-10 mb-6 border border-white/10 relative overflow-hidden text-center">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
                 <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.3em] mb-2">Available Cash in Hand</p>
                 <h2 id="summary-cash" class="text-4xl font-black text-white tracking-tighter italic mb-3">Rs. 0.00</h2>
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="text-[9px] font-black text-emerald-400 uppercase tracking-widest">Live Balance</span>
+                    <span class="text-[9px] font-black text-emerald-400 uppercase tracking-widest">Active Balance</span>
                 </div>
             </div>
 
-            <!-- Dashboard Analytics Grid -->
-            <div class="bg-white rounded-[2.5rem] p-8 mb-8 shadow-xl border border-slate-50">
-                <div class="flex justify-between items-center mb-6 px-2">
-                    <h3 class="font-black text-slate-800 text-[11px] uppercase tracking-widest">Analytics Summary</h3>
+            <!-- Summary Grid (Sankshipta Mahiti) -->
+            <div class="bg-white rounded-[2.5rem] p-8 mb-8 shadow-xl shadow-slate-200/50 border border-slate-50">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-black text-slate-800 text-[11px] uppercase tracking-widest">Filter Summary</h3>
                     <h4 id="summary-net" class="font-black text-indigo-600 text-sm italic">Net: Rs. 0.00</h4>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-slate-50 p-5 rounded-3xl border border-slate-100 text-center">
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-slate-50 p-4 rounded-3xl text-center border border-slate-100">
                         <p class="text-[8px] uppercase font-black text-slate-400 mb-1">Income</p>
-                        <p id="summary-income" class="text-xs font-black text-emerald-600">Rs. 0</p>
+                        <p id="summary-income" class="text-[11px] font-black text-emerald-600">Rs. 0</p>
                     </div>
-                    <div class="bg-slate-50 p-5 rounded-3xl border border-slate-100 text-center">
+                    <div class="bg-slate-50 p-4 rounded-3xl text-center border border-slate-100">
                         <p class="text-[8px] uppercase font-black text-slate-400 mb-1">Expense</p>
-                        <p id="summary-expense" class="text-xs font-black text-rose-500">Rs. 0</p>
+                        <p id="summary-expense" class="text-[11px] font-black text-rose-500">Rs. 0</p>
                     </div>
-                    <div class="bg-slate-50 p-5 rounded-3xl border border-slate-100 text-center">
+                    <div class="bg-slate-50 p-4 rounded-3xl text-center border border-slate-100">
                         <p class="text-[8px] uppercase font-black text-slate-400 mb-1">Savings</p>
-                        <p id="summary-savings" class="text-xs font-black text-amber-500">Rs. 0</p>
-                    </div>
-                    <div class="bg-slate-50 p-5 rounded-3xl border border-slate-100 text-center">
-                        <p class="text-[8px] uppercase font-black text-slate-400 mb-1">Loan</p>
-                        <p id="summary-loan" class="text-xs font-black text-indigo-500">Rs. 0</p>
+                        <p id="summary-savings" class="text-[11px] font-black text-amber-500">Rs. 0</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Filters -->
-            <div class="mb-6 px-2 flex flex-col gap-3">
-                <div class="flex justify-between items-center">
-                    <h3 class="font-black text-slate-800 text-sm tracking-tight flex items-center gap-2">Recent Business</h3>
-                    <input type="month" id="monthFilter" class="bg-white px-3 py-1.5 rounded-xl shadow-sm border border-slate-200 text-[10px] font-black outline-none" onchange="loadRecords()">
-                </div>
-                <div class="relative">
-                    <select id="categoryFilter" class="w-full bg-white px-4 py-3 rounded-xl shadow-sm border border-slate-200 text-[10px] font-black text-slate-800 outline-none appearance-none" onchange="loadRecords()">
-                        <option value="All">All Transactions</option>
+            <!-- Category Filter Header (Shreni Gara) -->
+            <div class="flex justify-between items-center mb-6 px-2">
+                <h3 class="font-black text-slate-800 text-sm tracking-tight flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Recent Business
+                </h3>
+                <div class="bg-white px-3 py-1.5 rounded-xl shadow-sm border border-slate-100">
+                    <select id="categoryFilter" class="bg-transparent border-none text-[10px] font-black text-slate-800 outline-none appearance-none pr-4" onchange="loadRecords()">
+                        <option value="All">All Categories</option>
                         <option value="Assignment work">Assignment Work</option>
                         <option value="CV Document">CV Document</option>
-                        <option value="System">System Development</option>
+                        <option value="System">System Dev</option>
                         <option value="Letter">Letter Writing</option>
                         <option value="Other">Other Service</option>
                     </select>
-                    <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-slate-300"></i>
                 </div>
             </div>
 
-            <div id="records-list" class="space-y-4 mb-16"></div>
+            <!-- List Container (Yadi) -->
+            <div id="records-list" class="space-y-4 mb-16">
+                <div class="text-center py-20 text-slate-300 font-bold text-[10px] uppercase tracking-widest">Loading...</div>
+            </div>
         </div>
 
-        <!-- History Tab -->
+        <!-- History Tab (Itihas) -->
         <div id="view-history" class="hidden view-transition">
-            <div class="bg-white rounded-[2.5rem] p-8 mb-8 shadow-xl border border-slate-50">
-                <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Business Statement</h4>
+            <div class="bg-white rounded-[2.5rem] p-8 mb-8 shadow-xl shadow-slate-200/50 border border-slate-50">
+                <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Financial Report Generator</h4>
                 <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div>
+                    <div class="space-y-1">
                         <label class="text-[8px] font-black text-slate-400 uppercase ml-2">From</label>
                         <input type="date" id="pdfStart" class="w-full bg-slate-50 p-4 rounded-2xl border-none text-[12px] font-bold text-slate-700 outline-none">
                     </div>
-                    <div>
+                    <div class="space-y-1">
                         <label class="text-[8px] font-black text-slate-400 uppercase ml-2">To</label>
                         <input type="date" id="pdfEnd" class="w-full bg-slate-50 p-4 rounded-2xl border-none text-[12px] font-bold text-slate-700 outline-none">
                     </div>
                 </div>
                 <button onclick="downloadRangePDF()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg action-btn">
-                    Download Statement (PDF)
+                    Download PDF Report
                 </button>
             </div>
             <div id="history-container" class="space-y-4 mb-16"></div>
         </div>
     </main>
 
-    <!-- Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 h-20 bottom-nav flex items-center justify-around px-10 z-[60] rounded-t-[2.5rem] shadow-2xl">
+    <!-- Bottom Navigation (Khalchi Navigation) -->
+    <nav class="fixed bottom-0 left-0 right-0 h-20 bottom-nav flex items-center justify-around px-10 z-[60] rounded-t-[2.5rem] shadow-[-10px_-10px_30px_rgba(0,0,0,0.03)]">
         <button onclick="switchView('home')" id="nav-home" class="nav-item active action-btn flex flex-col items-center">
-            <i class="fas fa-house-chimney text-xl mb-1"></i>
-            <span class="text-[9px] font-black uppercase tracking-tighter">Home</span>
+            <i class="fas fa-th-large text-xl mb-1"></i>
+            <span class="text-[9px] font-black uppercase">Overview</span>
         </button>
+        
         <button onclick="openEntryForm()" class="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center -translate-y-8 action-btn shadow-2xl border-[4px] border-white">
             <i class="fas fa-plus text-lg"></i>
         </button>
+
         <button onclick="switchView('history')" id="nav-history" class="nav-item action-btn flex flex-col items-center">
-            <i class="fas fa-clock-rotate-left text-xl mb-1"></i>
-            <span class="text-[9px] font-black uppercase tracking-tighter">History</span>
+            <i class="fas fa-chart-pie text-xl mb-1"></i>
+            <span class="text-[9px] font-black uppercase">History</span>
         </button>
     </nav>
 
-    <!-- Professional Grid-based Entry Form -->
+    <!-- Entry Form (Naveen Nond) -->
     <div id="formOverlay" class="fixed inset-0 z-[100] hidden flex items-end">
-        <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-lg" onclick="closeEntryForm()"></div>
-        <div id="formSheet" class="relative w-full bg-white rounded-t-[3.5rem] p-8 pb-12 shadow-2xl transition-transform duration-500 transform translate-y-full max-h-[95vh] overflow-y-auto">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onclick="closeEntryForm()"></div>
+        <div id="formSheet" class="relative w-full bg-white rounded-t-[3rem] p-6 pb-10 shadow-2xl transition-transform duration-500 transform translate-y-full max-h-[90vh] overflow-y-auto">
+            <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto mb-6"></div>
             
-            <div class="w-16 h-1.5 bg-slate-100 rounded-full mx-auto mb-8"></div>
-            
-            <div class="flex items-center justify-between mb-8">
-                <div>
-                    <h3 id="formTitle" class="text-2xl font-black text-slate-800 tracking-tight">New Record</h3>
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">SmartDocs Business Suite</p>
-                </div>
-                <button onclick="closeEntryForm()" class="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400"><i class="fas fa-times"></i></button>
+            <div class="flex items-center justify-between mb-6 px-2">
+                <button onclick="closeEntryForm()" class="flex items-center gap-2 text-slate-400 text-[9px] font-black uppercase tracking-widest action-btn">
+                    <i class="fas fa-chevron-left bg-slate-50 w-8 h-8 rounded-xl flex items-center justify-center text-[10px]"></i> Back
+                </button>
+                <h3 id="formTitle" class="text-base font-black text-slate-800 tracking-tight">New Record</h3>
+                <div class="w-12"></div>
             </div>
 
-            <form id="financeForm" class="space-y-8">
+            <form id="financeForm">
                 <input type="hidden" id="editId">
-                
-                <!-- Professional Data Grid -->
-                <div class="form-grid-container">
-                    <div class="form-grid-cell cell-full">
-                        <label class="form-label"><i class="fas fa-calendar-day text-indigo-500"></i> Date</label>
-                        <input type="date" id="inDate" required class="form-input-pro">
+                <div class="bg-slate-50 rounded-[2rem] border border-slate-100 overflow-hidden mb-6">
+                    <div class="entry-row">
+                        <div class="entry-label">Date</div>
+                        <input type="date" id="inDate" required class="entry-input">
                     </div>
-                    <div class="form-grid-cell cell-full">
-                        <label class="form-label"><i class="fas fa-tag text-indigo-500"></i> Service Description</label>
-                        <select id="inNote" required class="form-input-pro appearance-none">
+                    <div class="entry-row">
+                        <div class="entry-label">Service</div>
+                        <select id="inNote" required class="entry-input appearance-none bg-transparent">
                             <option value="Assignment work">Assignment Work</option>
                             <option value="CV Document">CV Document</option>
-                            <option value="System">System Development</option>
+                            <option value="System">System Dev</option>
                             <option value="Letter">Letter Writing</option>
                             <option value="Other">Other Service</option>
                         </select>
                     </div>
-                    <div class="form-grid-cell">
-                        <label class="form-label"><i class="fas fa-hand-holding-dollar text-emerald-500"></i> Income</label>
-                        <input type="number" id="inInc" step="0.01" inputmode="decimal" placeholder="0.00" class="form-input-pro text-emerald-600" oninput="calculateLiveBalance()">
+                    <div class="entry-row">
+                        <div class="entry-label text-emerald-600">Income (Rs)</div>
+                        <input type="number" id="inInc" step="0.01" inputmode="decimal" placeholder="0.00" class="entry-input text-emerald-600 font-black" oninput="calculateLiveBalance()">
                     </div>
-                    <div class="form-grid-cell">
-                        <label class="form-label"><i class="fas fa-receipt text-rose-500"></i> Expense</label>
-                        <input type="number" id="inExp" step="0.01" inputmode="decimal" placeholder="0.00" class="form-input-pro text-rose-500" oninput="calculateLiveBalance()">
+                    <div class="entry-row">
+                        <div class="entry-label text-rose-500">Expense (Rs)</div>
+                        <input type="number" id="inExp" step="0.01" inputmode="decimal" placeholder="0.00" class="entry-input text-rose-500 font-black" oninput="calculateLiveBalance()">
                     </div>
-                    <div class="form-grid-cell">
-                        <label class="form-label"><i class="fas fa-piggy-bank text-amber-500"></i> Savings</label>
-                        <input type="number" id="inSav" step="0.01" inputmode="decimal" placeholder="0.00" class="form-input-pro text-amber-500" oninput="calculateLiveBalance()">
-                    </div>
-                    <div class="form-grid-cell">
-                        <label class="form-label"><i class="fas fa-credit-card text-indigo-500"></i> Loan</label>
-                        <input type="number" id="inLoan" step="0.01" inputmode="decimal" placeholder="0.00" class="form-input-pro text-indigo-600" oninput="calculateLiveBalance()">
+                    <div class="entry-row border-none">
+                        <div class="entry-label text-amber-500">Savings (Rs)</div>
+                        <input type="number" id="inSav" step="0.01" inputmode="decimal" placeholder="0.00" class="entry-input text-amber-500 font-black" oninput="calculateLiveBalance()">
                     </div>
                 </div>
 
-                <!-- Live Auto-Calculation Card -->
-                <div class="bg-slate-900 rounded-[2.5rem] p-8 shadow-xl border border-white/5 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Net Profit Projection</span>
-                        <span id="live-net" class="font-black text-white italic text-lg tracking-tight">Rs. 0.00</span>
+                <div class="bg-slate-900 p-6 rounded-[2rem] mb-6 shadow-lg border border-white/5">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Net Profit</span>
+                        <span id="live-net" class="font-black text-white italic text-base tracking-tighter">Rs. 0.00</span>
                     </div>
-                    <div class="flex justify-between items-center pt-4 border-t border-white/10">
-                        <span class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em]">Est. Cash Balance</span>
-                        <span id="live-cash" class="font-black text-indigo-400 text-2xl tracking-tighter italic">Rs. 0.00</span>
+                    <div class="flex justify-between items-center pt-2 border-t border-white/5">
+                        <span class="text-[9px] font-black text-indigo-400 uppercase tracking-widest">Hand Cash</span>
+                        <span id="live-cash" class="font-black text-indigo-400 italic text-xl tracking-tighter">Rs. 0.00</span>
                     </div>
                 </div>
 
-                <div class="flex gap-4">
-                    <button type="button" onclick="closeEntryForm()" class="flex-1 bg-slate-50 text-slate-400 py-4 rounded-2xl font-black text-[11px] uppercase tracking-widest action-btn">Discard</button>
-                    <button type="submit" id="saveBtn" class="flex-[2] bg-slate-900 text-white py-4 rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl action-btn">Save Transaction</button>
+                <div class="flex gap-3 px-1">
+                    <button type="button" onclick="closeEntryForm()" class="flex-1 bg-slate-100 text-slate-400 py-3.5 rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest action-btn">
+                        Discard
+                    </button>
+                    <button type="submit" id="saveBtn" class="flex-1 bg-slate-900 text-white py-3.5 rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest shadow-xl action-btn">
+                        Save Record
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Quick Preview Modal -->
+    <!-- Quick Preview Bottom Sheet (Tvarit Notav) -->
     <div id="previewOverlay" class="fixed inset-0 z-[100] hidden flex items-end">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onclick="closePreview()"></div>
         <div id="previewSheet" class="relative w-full bg-white rounded-t-[3rem] p-8 pb-10 shadow-2xl transition-transform duration-500 transform translate-y-full">
-            <div class="w-12 h-1.5 bg-slate-100 rounded-full mx-auto mb-8"></div>
+            <div class="w-10 h-1 bg-slate-100 rounded-full mx-auto mb-8"></div>
             
-            <div class="flex items-center justify-between mb-8 px-2">
-                <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-[1.5rem] flex items-center justify-center text-xl"><i class="fas fa-file-invoice"></i></div>
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl">
+                        <i class="fas fa-receipt"></i>
+                    </div>
                     <div>
-                        <h3 id="pvNote" class="text-lg font-black text-slate-800 tracking-tight">--</h3>
-                        <p id="pvDate" class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">--</p>
+                        <h3 id="pvNote" class="text-lg font-black text-slate-800 tracking-tight">Service Name</h3>
+                        <p id="pvDate" class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Date</p>
                     </div>
                 </div>
-                <button onclick="closePreview()" class="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-300"><i class="fas fa-times"></i></button>
+                <button onclick="closePreview()" class="w-10 h-10 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300"><i class="fas fa-times text-xs"></i></button>
             </div>
 
-            <div class="bg-slate-50 rounded-[2.5rem] px-8 py-4 mb-8 border border-slate-100">
-                <div class="flex justify-between py-4 border-bottom border-slate-100"><span class="text-[10px] font-black text-slate-400 uppercase">Income</span><span id="pvInc" class="font-black text-emerald-600">0.00</span></div>
-                <div class="flex justify-between py-4 border-bottom border-slate-100"><span class="text-[10px] font-black text-slate-400 uppercase">Expense</span><span id="pvExp" class="font-black text-rose-500">0.00</span></div>
-                <div class="flex justify-between py-4 border-bottom border-slate-100"><span class="text-[10px] font-black text-slate-400 uppercase">Savings</span><span id="pvSav" class="font-black text-amber-500">0.00</span></div>
-                <div class="flex justify-between py-4 border-bottom border-slate-100"><span class="text-[10px] font-black text-slate-400 uppercase">Loan</span><span id="pvLoan" class="font-black text-indigo-500">0.00</span></div>
-                <div class="flex justify-between py-4"><span class="text-[10px] font-black text-slate-900 uppercase">Cash on Hand</span><span id="pvCash" class="font-black text-slate-900">0.00</span></div>
+            <div class="bg-slate-50/50 rounded-[2rem] border border-slate-100 px-6 py-2 mb-8">
+                <div class="preview-stat-row">
+                    <span class="preview-stat-label">Income</span>
+                    <span id="pvInc" class="preview-stat-value text-emerald-600">Rs. 0.00</span>
+                </div>
+                <div class="preview-stat-row">
+                    <span class="preview-stat-label">Expense</span>
+                    <span id="pvExp" class="preview-stat-value text-rose-500">Rs. 0.00</span>
+                </div>
+                <div class="preview-stat-row">
+                    <span class="preview-stat-label">Savings</span>
+                    <span id="pvSav" class="preview-stat-value text-amber-500">Rs. 0.00</span>
+                </div>
+                <div class="preview-stat-row">
+                    <span class="preview-stat-label">Net Profit</span>
+                    <span id="pvNet" class="preview-stat-value text-indigo-600">Rs. 0.00</span>
+                </div>
+                <div class="preview-stat-row border-none">
+                    <span class="preview-stat-label">Cash in Hand</span>
+                    <span id="pvCash" class="preview-stat-value text-slate-900">Rs. 0.00</span>
+                </div>
             </div>
 
-            <div class="flex gap-4">
-                <button id="pvDeleteBtn" class="flex-1 bg-rose-50 text-rose-500 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest action-btn"><i class="fas fa-trash-can mr-2"></i> Delete</button>
-                <button id="pvEditBtn" class="flex-[2] bg-slate-900 text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl action-btn"><i class="fas fa-pen-to-square mr-2"></i> Edit Record</button>
+            <div class="flex gap-4 px-2">
+                <button id="pvDeleteBtn" class="flex-1 bg-rose-50 text-rose-500 py-4 rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest action-btn flex items-center justify-center gap-2">
+                    <i class="fas fa-trash-alt text-[9px]"></i> Delete
+                </button>
+                <button id="pvEditBtn" class="flex-[2] bg-slate-900 text-white py-4 rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest shadow-xl action-btn flex items-center justify-center gap-2">
+                    <i class="fas fa-edit text-[9px]"></i> Edit Record
+                </button>
             </div>
         </div>
     </div>
@@ -336,6 +343,7 @@
         import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // Firebase Sanrachna
         const firebaseConfig = {
             apiKey: "AIzaSyAXUjPo_M4Ov6k32fDtH62mcqkLpfOXzj4",
             authDomain: "smartdocs-finance.firebaseapp.com",
@@ -357,79 +365,147 @@
             currentUser = user;
             if (user) {
                 const now = new Date();
-                document.getElementById('monthFilter').value = now.toISOString().slice(0, 7);
+                // Default category set logic (Siddha Category)
+                document.getElementById('categoryFilter').value = "All";
+                
                 document.getElementById('pdfStart').value = now.toISOString().slice(0, 10);
                 document.getElementById('pdfEnd').value = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().slice(0, 10);
                 syncData();
-            } else { signInAnonymously(auth); }
+            } else {
+                signInAnonymously(auth);
+            }
         });
 
+        // Mahiti Adhyayavat kara
         function syncData() {
-            onSnapshot(collection(db, 'artifacts', appId, 'users', currentUser.uid, 'finance_data'), (snap) => {
-                allRecords = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => new Date(b.date) - new Date(a.date));
+            const dataRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'finance_data');
+            onSnapshot(dataRef, (snap) => {
+                allRecords = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+                    .sort((a, b) => new Date(b.date) - new Date(a.date));
                 updateDashboardDisplay();
-            });
+            }, (err) => console.error("Snapshot Error:", err));
         }
 
+        // Dashboard Pradarshana (Dashboard display logic)
         window.updateDashboardDisplay = () => {
             const filterCat = document.getElementById('categoryFilter').value;
-            const filterMonth = document.getElementById('monthFilter').value;
+            const container = document.getElementById('records-list');
             
-            const filtered = allRecords.filter(r => (filterCat === "All" || r.note === filterCat) && (!filterMonth || r.date.startsWith(filterMonth)));
+            // Filter by Category instead of Date (Shreni nusar gara)
+            const filtered = filterCat === "All" 
+                ? allRecords 
+                : allRecords.filter(r => r.note === filterCat);
             
-            let tInc = 0, tExp = 0, tSav = 0, tLoa = 0;
-            filtered.forEach(r => { tInc += (r.income || 0); tExp += (r.expense || 0); tSav += (r.savings || 0); tLoa += (r.loan || 0); });
+            let tIncome = 0, tExpense = 0, tSavings = 0;
+            
+            // All-time totals for the selected category or everything
+            filtered.forEach(rec => {
+                tIncome += parseFloat(rec.income || 0);
+                tExpense += parseFloat(rec.expense || 0);
+                tSavings += parseFloat(rec.savings || 0);
+            });
 
-            document.getElementById('summary-income').innerText = `Rs. ${tInc.toLocaleString()}`;
-            document.getElementById('summary-expense').innerText = `Rs. ${tExp.toLocaleString()}`;
-            document.getElementById('summary-savings').innerText = `Rs. ${tSav.toLocaleString()}`;
-            document.getElementById('summary-loan').innerText = `Rs. ${tLoa.toLocaleString()}`;
-            document.getElementById('summary-net').innerText = `Net: Rs. ${(tInc - tExp).toLocaleString()}`;
-            document.getElementById('summary-cash').innerText = `Rs. ${(tInc - tExp - tSav - tLoa).toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+            const netProfit = tIncome - tExpense;
+            const handBalance = tIncome - tExpense - tSavings;
 
-            const list = document.getElementById('records-list');
-            const recent = filtered.slice(0, 5);
-            list.innerHTML = recent.length ? recent.map(r => renderCard(r)).join('') : '<div class="p-10 text-center text-slate-300 font-bold text-[10px] uppercase">No Recent Activity</div>';
+            document.getElementById('summary-income').innerText = `Rs. ${tIncome.toLocaleString()}`;
+            document.getElementById('summary-expense').innerText = `Rs. ${tExpense.toLocaleString()}`;
+            document.getElementById('summary-savings').innerText = `Rs. ${tSavings.toLocaleString()}`;
+            document.getElementById('summary-net').innerText = `Net: Rs. ${netProfit.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+            document.getElementById('summary-cash').innerText = `Rs. ${handBalance.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="bg-white rounded-[2.5rem] p-20 text-center border border-slate-50">
+                    <p class="text-slate-300 font-bold text-[10px] uppercase tracking-widest">No activity for this category</p>
+                </div>`;
+            } else {
+                container.innerHTML = filtered.map(rec => {
+                    const inc = parseFloat(rec.income || 0);
+                    const exp = parseFloat(rec.expense || 0);
+                    const net = inc - exp;
+                    return `
+                        <div class="bg-white p-6 rounded-[2.5rem] shadow-sm flex items-center justify-between border border-slate-50 action-btn" onclick="showPreview('${rec.id}')">
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 ${net >= 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'} rounded-[1.8rem] flex items-center justify-center text-lg shadow-inner">
+                                    <i class="fas ${net >= 0 ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-slate-800 text-xs tracking-tight">${rec.note}</h4>
+                                    <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mt-1">${rec.date}</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-black text-slate-900 text-sm italic">Rs. ${net.toLocaleString(undefined, {minimumFractionDigits: 2})}</p>
+                                <p class="text-[9px] font-bold text-amber-500 mt-1">${rec.savings > 0 ? 'Saved' : ''}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
             renderHistory();
         };
 
-        function renderCard(rec) {
-            const net = (rec.income || 0) - (rec.expense || 0);
-            return `<div class="bg-white p-5 rounded-[2.5rem] shadow-sm flex items-center justify-between border border-slate-50 action-btn" onclick="showPreview('${rec.id}')">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 ${net >= 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'} rounded-[1.4rem] flex items-center justify-center text-sm shadow-inner"><i class="fas ${net >= 0 ? 'fa-arrow-up' : 'fa-arrow-down'}"></i></div>
-                    <div><h4 class="font-black text-slate-800 text-[11px] tracking-tight">${rec.note}</h4><p class="text-[8px] text-slate-400 font-black uppercase mt-0.5">${rec.date}</p></div>
-                </div>
-                <div class="text-right"><p class="font-black text-slate-900 text-xs italic">Rs. ${net.toLocaleString()}</p></div>
-            </div>`;
-        }
-
         window.loadRecords = () => updateDashboardDisplay();
-        window.switchView = (v) => {
-            const isH = v === 'home';
-            document.getElementById('view-home').classList.toggle('hidden', !isH);
-            document.getElementById('view-history').classList.toggle('hidden', isH);
-            document.getElementById('nav-home').classList.toggle('active', isH);
-            document.getElementById('nav-history').classList.toggle('active', !isH);
-            if(!isH) renderHistory();
+
+        window.switchView = (view) => {
+            const isHome = view === 'home';
+            document.getElementById('view-home').classList.toggle('hidden', !isHome);
+            document.getElementById('view-history').classList.toggle('hidden', isHome);
+            document.getElementById('nav-home').classList.toggle('active', isHome);
+            document.getElementById('nav-history').classList.toggle('active', !isHome);
+            if(!isHome) renderHistory();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
         window.renderHistory = () => {
-            document.getElementById('history-container').innerHTML = allRecords.map(r => renderCard(r)).join('');
+            const container = document.getElementById('history-container');
+            if (allRecords.length === 0) {
+                container.innerHTML = `<div class="p-20 text-center text-slate-400 italic text-xs uppercase tracking-widest">History is Empty</div>`;
+                return;
+            }
+            container.innerHTML = allRecords.map(rec => {
+                const net = (rec.income || 0) - (rec.expense || 0);
+                return `
+                    <div class="bg-white p-6 rounded-[2.5rem] shadow-sm flex items-center justify-between border border-slate-100 action-btn" onclick="showPreview('${rec.id}')">
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 bg-slate-50 text-slate-400 rounded-[1.5rem] flex items-center justify-center text-lg">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-slate-800 text-xs tracking-tight">${rec.note}</h4>
+                                <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mt-1">${rec.date}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                             <p class="font-black text-slate-900 text-sm italic">Rs. ${net.toLocaleString()}</p>
+                             <p class="text-[8px] text-slate-300 font-bold uppercase mt-1">Tap for details</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         };
 
+        // --- PREVIEW SYSTEM ---
         window.showPreview = (id) => {
             const r = allRecords.find(x => x.id === id);
             if(!r) return;
+            const inc = parseFloat(r.income || 0);
+            const exp = parseFloat(r.expense || 0);
+            const sav = parseFloat(r.savings || 0);
+            const net = inc - exp;
+            const cash = inc - exp - sav;
+
             document.getElementById('pvNote').innerText = r.note;
             document.getElementById('pvDate').innerText = r.date;
-            document.getElementById('pvInc').innerText = `Rs. ${r.income.toLocaleString()}`;
-            document.getElementById('pvExp').innerText = `Rs. ${r.expense.toLocaleString()}`;
-            document.getElementById('pvSav').innerText = `Rs. ${r.savings.toLocaleString()}`;
-            document.getElementById('pvLoan').innerText = `Rs. ${(r.loan || 0).toLocaleString()}`;
-            document.getElementById('pvCash').innerText = `Rs. ${(r.income - r.expense - r.savings - (r.loan || 0)).toLocaleString()}`;
+            document.getElementById('pvInc').innerText = `Rs. ${inc.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+            document.getElementById('pvExp').innerText = `Rs. ${exp.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+            document.getElementById('pvSav').innerText = `Rs. ${sav.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+            document.getElementById('pvNet').innerText = `Rs. ${net.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+            document.getElementById('pvCash').innerText = `Rs. ${cash.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+
             document.getElementById('pvEditBtn').onclick = () => { closePreview(); editEntry(id); };
             document.getElementById('pvDeleteBtn').onclick = () => { closePreview(); deleteEntry(id); };
+
             document.getElementById('previewOverlay').classList.remove('hidden');
             setTimeout(() => document.getElementById('previewSheet').classList.remove('translate-y-full'), 50);
         };
@@ -442,6 +518,9 @@
         window.openEntryForm = () => {
             document.getElementById('formOverlay').classList.remove('hidden');
             setTimeout(() => document.getElementById('formSheet').classList.remove('translate-y-full'), 50);
+            if(!document.getElementById('editId').value) {
+                document.getElementById('inDate').value = new Date().toISOString().slice(0, 10);
+            }
         };
 
         window.closeEntryForm = () => {
@@ -460,9 +539,10 @@
             const inc = parseFloat(document.getElementById('inInc').value) || 0;
             const exp = parseFloat(document.getElementById('inExp').value) || 0;
             const sav = parseFloat(document.getElementById('inSav').value) || 0;
-            const loa = parseFloat(document.getElementById('inLoan').value) || 0;
-            document.getElementById('live-net').innerText = `Rs. ${(inc - exp).toLocaleString()}`;
-            document.getElementById('live-cash').innerText = `Rs. ${(inc - exp - sav - loa).toLocaleString()}`;
+            const net = inc - exp;
+            const cash = inc - exp - sav;
+            document.getElementById('live-net').innerText = `Rs. ${net.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+            document.getElementById('live-cash').innerText = `Rs. ${cash.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
         };
 
         document.getElementById('financeForm').addEventListener('submit', async (e) => {
@@ -473,110 +553,53 @@
                 income: parseFloat(document.getElementById('inInc').value) || 0,
                 expense: parseFloat(document.getElementById('inExp').value) || 0,
                 savings: parseFloat(document.getElementById('inSav').value) || 0,
-                loan: parseFloat(document.getElementById('inLoan').value) || 0,
                 note: document.getElementById('inNote').value,
                 updatedAt: new Date().getTime()
             };
             const colRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'finance_data');
             try {
+                document.getElementById('saveBtn').disabled = true;
                 if (id) await updateDoc(doc(colRef, id), payload);
                 else await addDoc(colRef, payload);
                 closeEntryForm();
-            } catch (err) { console.error(err); }
+            } catch (err) { console.error(err); } finally { document.getElementById('saveBtn').disabled = false; }
         });
 
         window.editEntry = (id) => {
             const r = allRecords.find(x => x.id === id);
+            if(!r) return;
             document.getElementById('editId').value = r.id;
             document.getElementById('inDate').value = r.date;
             document.getElementById('inInc').value = r.income;
             document.getElementById('inExp').value = r.expense;
             document.getElementById('inSav').value = r.savings;
-            document.getElementById('inLoan').value = r.loan || 0;
             document.getElementById('inNote').value = r.note;
-            document.getElementById('formTitle').innerText = "Edit Record";
+            document.getElementById('formTitle').innerText = "Update Record";
             calculateLiveBalance();
             openEntryForm();
         };
 
-        window.deleteEntry = async (id) => { if (confirm("Delete permanently?")) await deleteDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'finance_data', id)); };
+        window.deleteEntry = async (id) => {
+            if (confirm("Delete this record permanently?")) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'finance_data', id));
+            }
+        };
 
-        // Professional PDF Generation
         window.downloadRangePDF = () => {
             const { jsPDF } = window.jspdf;
             const start = document.getElementById('pdfStart').value;
             const end = document.getElementById('pdfEnd').value;
+            if (!start || !end) { alert("Please select date range"); return; }
             const filtered = allRecords.filter(r => r.date >= start && r.date <= end).sort((a,b) => new Date(a.date) - new Date(b.date));
-            if (!filtered.length) return alert("No records for selected range!");
-
+            if (filtered.length === 0) { alert("No records found in this range"); return; }
             const doc = new jsPDF();
-            let tInc = 0, tExp = 0, tSav = 0, tLoa = 0;
-
-            // Brand Header
-            doc.setFillColor(15, 23, 42); doc.rect(0, 0, 210, 50, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(26); doc.setFont("helvetica", "bold");
-            doc.text("SMARTDOCS SRI LANKA", 15, 25);
-            doc.setFontSize(10); doc.setFont("helvetica", "normal");
-            doc.text(`BUSINESS FINANCIAL STATEMENT | ${start} TO ${end}`, 15, 38);
-            doc.text(`Report ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}`, 155, 38);
-
-            // Data Table
-            const body = filtered.map(r => {
-                tInc += r.income; tExp += r.expense; tSav += r.savings; tLoa += (r.loan || 0);
-                return [r.date, r.note, r.income.toFixed(2), r.expense.toFixed(2), r.savings.toFixed(2), (r.loan || 0).toFixed(2), (r.income - r.expense - r.savings - (r.loan || 0)).toFixed(2)];
-            });
-
-            doc.autoTable({
-                startY: 60,
-                head: [['Date', 'Description', 'Income', 'Expense', 'Savings', 'Loan', 'Cash Bal.']],
-                body: body,
-                headStyles: { fillColor: [30, 41, 59], fontSize: 9, halign: 'center' },
-                columnStyles: { 2: { halign: 'right' }, 3: { halign: 'right' }, 4: { halign: 'right' }, 5: { halign: 'right' }, 6: { halign: 'right' } },
-                theme: 'striped',
-                margin: { left: 15, right: 15 }
-            });
-
-            // Financial Summary Section (Professional Tables)
-            const finalY = doc.lastAutoTable.finalY + 15;
-            doc.setTextColor(15, 23, 42); doc.setFontSize(14); doc.setFont("helvetica", "bold");
-            doc.text("EXECUTIVE FINANCIAL SUMMARY", 15, finalY);
-
-            // Summary Table: Metrics
-            doc.autoTable({
-                startY: finalY + 5,
-                head: [['Financial KPI', 'Value (LKR)']],
-                body: [
-                    ['Gross Total Income', tInc.toLocaleString(undefined, {minimumFractionDigits:2})],
-                    ['Total Business Expenses', tExp.toLocaleString(undefined, {minimumFractionDigits:2})],
-                    ['Total Amount Saved', tSav.toLocaleString(undefined, {minimumFractionDigits:2})],
-                    ['Total Outstanding Loans', tLoa.toLocaleString(undefined, {minimumFractionDigits:2})]
-                ],
-                headStyles: { fillColor: [79, 70, 229] },
-                columnStyles: { 1: { halign: 'right', fontStyle: 'bold' } },
-                tableWidth: 100, margin: { left: 15 }
-            });
-
-            // Summary Table: Bottom Line
-            doc.autoTable({
-                startY: finalY + 5,
-                head: [['Net Position', 'Total Amount']],
-                body: [
-                    ['Calculated Net Profit', `LKR ${(tInc - tExp).toLocaleString(undefined, {minimumFractionDigits:2})}`],
-                    ['Final Cash on Hand', `LKR ${(tInc - tExp - tSav - tLoa).toLocaleString(undefined, {minimumFractionDigits:2})}`]
-                ],
-                headStyles: { fillColor: [15, 23, 42] },
-                columnStyles: { 1: { halign: 'right', fontStyle: 'bold', fontSize: 11 } },
-                tableWidth: 80, margin: { left: 120 }
-            });
-
-            // Footer
-            doc.setFontSize(8); doc.setTextColor(150);
-            doc.text("System Generated Report - SmartDocs SL Business Intelligence Suite", 105, 285, { align: 'center' });
-            
-            doc.save(`SmartDocs_Statement_${start}_to_${end}.pdf`);
+            doc.setFillColor(15, 23, 42); doc.rect(0, 0, 210, 45, 'F');
+            doc.setTextColor(255, 255, 255); doc.setFontSize(22); doc.text("SMARTDOCS SRI LANKA", 15, 25);
+            doc.setFontSize(10); doc.text(`Financial Summary: ${start} to ${end}`, 15, 38);
+            const rows = filtered.map(r => [r.date, r.note, r.income.toLocaleString(), r.expense.toLocaleString(), r.savings.toLocaleString(), (r.income - r.expense - r.savings).toLocaleString()]);
+            doc.autoTable({ startY: 55, head: [['Date', 'Description', 'Income', 'Expense', 'Savings', 'Hand Cash']], body: rows, headStyles: { fillColor: [15, 23, 42] } });
+            doc.save(`SmartDocs_Report_${start}_to_${end}.pdf`);
         };
     </script>
 </body>
 </html>
-
